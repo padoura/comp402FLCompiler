@@ -36,13 +36,27 @@
   #define TK_BOOL 291
   #define TK_STR 292
 
-  #define OP_ASSGN 293
-  #define OP_LG 294
-  #define OP_LE 295
-  #define OP_GE 296
-  #define OP_AND 297
-  #define OP_OR 298
+  #define OP_CAST 294
+  #define OP_ASSGN 295
+  #define OP_LG 296
+  #define OP_LE 297
+  #define OP_GE 298
+  #define OP_AND 299
+  #define OP_OR 300
 
   #include <math.h>
   int lineNum = 1;
 %}
+
+ID [a-zA-Z][0-9a-zA-Z_]*
+DIGIT   [0-9]
+NONZERO_DIGIT [1-9]
+NUMBER  {DIGIT}{DIGIT}*
+INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
+DECIMAL {INTEGER}\.{NUMBER}
+REAL    {DECIMAL}([eE][+-]?{INTEGER})?
+CAST    \((integer)|(boolean)|(char)|(real)\)
+
+%x str
+%x comment
+%x macro
