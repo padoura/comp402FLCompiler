@@ -41,8 +41,8 @@
   #define OP_LG 296
   #define OP_LE 297
   #define OP_GE 298
-  #define OP_AND 299
-  #define OP_OR 300
+
+  #define LINE_COMMENT 299
 
   #include <math.h>
   int lineNum = 1;
@@ -60,3 +60,85 @@ CAST    \((integer)|(boolean)|(char)|(real)\)
 %x str
 %x comment
 %x macro
+
+%%
+
+and           return KW_AND;
+array         return KW_ARRAY;
+boolean       return KW_BOOL;
+char          return KW_CHAR;
+begin         return KW_BEGIN;
+div           return KW_DIV;
+do            return KW_DO;
+else          return KW_ELSE;
+for           return KW_FOR;
+end           return KW_END;
+function      return KW_FUN;
+goto          return KW_GOTO;
+if            return KW_IF;
+integer       return KW_INT;
+var           return KW_VAR;
+mod           return KW_MOD;
+not           return KW_NOT;
+of            return KW_OF;
+or            return KW_OR;
+while         return KW_WHILE;
+procedure     return KW_PROC;
+program       return KW_PROG;
+real          return KW_REAL;
+repeat        return KW_REP;
+to            return KW_TO;
+result        return KW_RES;
+return        return KW_RET;
+then          return KW_THEN;
+until         return KW_UNTIL;
+downto        return KW_DOWNTO;
+
+"+"           return '+';
+"-"           return '-';
+"*"						return '*';
+"/"						return '/';
+"="           return '=';
+"<>"          return OP_LG;
+"<"           return '<';
+"<="          return OP_LE;
+">"           return '>';
+">="          return OP_GE;
+"&&"          return KW_AND;
+"||"          return KW_OR;
+"!"           return KW_NOT;
+":="          return OP_ASSGN;
+"."           return '.';
+":"           return ':';
+","           return ',';
+"["           return  '[';
+"]"           return ']';
+"("           return '(';
+")"           return ')';
+";"           return ';';
+
+"//"[^\n]*    return LINE_COMMENT;/* eat line comments */
+[ \r\t]		   /* skip whitespace */
+\n 			      ++lineNum;
+<<EOF>> 	   return EOF;
+
+
+%%
+
+/* TODO Print token type name for each token int.*/
+char* tk_type(int token)
+{
+  switch(token){
+    case LINE_COMMENT :
+      return "LINE COMMENT";
+      break;
+  }
+}
+
+
+int main ()
+{
+   int token;
+   while ( (token = yylex()) != EOF )
+      printf("Line %d Token %s: %s\n", lineNum, tk_type(token), yytext);
+}
