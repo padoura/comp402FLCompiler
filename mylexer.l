@@ -125,12 +125,173 @@ downto        return KW_DOWNTO;
 
 %%
 
-/* TODO Print token type name for each token int.*/
 char* tk_type(int token)
 {
   switch(token){
     case LINE_COMMENT :
-      return "LINE COMMENT";
+      return "LINE_COMMENT";
+      break;
+    case '+' :
+      return "OP_PLUS";
+      break;
+    case '-' :
+      return "OP_MINUS";
+      break;
+    case '*' :
+      return "OP_MULTIPLY";
+      break;
+    case '/' :
+      return "OP_DIVIDE";
+      break;
+    case '=' :
+      return "OP_EQUALITY";
+      break;
+    case OP_LG :
+      return "OP_INEQUALITY";
+      break;
+    case '<' :
+      return "OP_LESS";
+      break;
+    case OP_LE :
+      return "OP_LESS_EQUAL";
+      break;
+    case '>' :
+      return "OP_GREATER";
+      break;
+    case OP_GE :
+      return "OP_GREATER_EQUAL";
+      break;
+    case KW_AND:
+      return "LOGICAL_AND";
+      break;
+    case KW_OR:
+      return "LOGICAL_OR";
+      break;
+    case KW_NOT:
+      return "LOGICAL_NOT";
+      break;
+    case OP_ASSGN:
+      return "ASSIGNMENT";
+      break;
+    case '.' :
+      return "DOT";
+      break;
+    case ':' :
+      return "COLON";
+      break;
+    case ',' :
+      return "COMMA";
+      break;
+    case '[' :
+      return "LEFT_BRACKET";
+      break;
+    case ']' :
+      return "RIGHT_BRACKET";
+      break;
+    case '(' :
+      return "LEFT_PARENTHESIS";
+      break;
+    case ')' :
+      return "RIGHT_PARENTHESIS";
+      break;
+    case ';' :
+      return "SEMICOLON";
+      break;
+    case KW_ARRAY :
+      return "KEYWORD_ARRAY";
+      break;
+    case KW_BOOL :
+      return "KEYWORD_BOOLEAN";
+      break;
+    case KW_CHAR :
+      return "KEYWORD_CHARACTER";
+      break;
+    case KW_BEGIN :
+      return "KEYWORD_BEGIN";
+      break;
+    case KW_DIV :
+      return "OP_INTEGER_DIVISION";
+      break;
+    case KW_DO :
+      return "KEYWORD_DO";
+      break;
+    case KW_ELSE :
+      return "KEYWORD_ELSE";
+      break;
+    case KW_FOR :
+      return "KEYWORD_FOR";
+      break;
+    case KW_END :
+      return "KEYWORD_END";
+      break;
+    case KW_FUN :
+      return "KEYWORD_FUNCTION";
+      break;
+    case KW_GOTO :
+      return "KEYWORD_GOTO";
+      break;
+    case KW_IF :
+      return "KEYWORD_IF";
+      break;
+    case KW_INT :
+      return "KEYWORD_INTEGER";
+      break;
+    case KW_VAR :
+      return "KEYWORD_VAR";
+      break;
+    case KW_MOD :
+      return "OP_MODULO";
+      break;
+    case KW_OF :
+      return "KEYWORD_OF";
+      break;
+    case KW_WHILE :
+      return "KEYWORD_WHILE";
+      break;
+    case KW_PROC :
+      return "KEYWORD_PROCEDURE";
+      break;
+    case KW_PROG :
+      return "KEYWORD_PROGRAM";
+      break;
+    case KW_REAL :
+      return "KEYWORD_REAL";
+      break;
+    case KW_REP :
+      return "KEYWORD_REPEAT";
+      break;
+    case KW_TO :
+      return "KEYWORD_TO";
+      break;
+    case KW_RES :
+      return "KEYWORD_RESULT";
+      break;
+    case KW_RET :
+      return "KEYWORD_RETURN";
+      break;
+    case KW_THEN :
+      return "KEYWORD_THEN";
+      break;
+    case KW_UNTIL :
+      return "KEYWORD_UNTIL";
+      break;
+    case KW_DOWNTO :
+      return "KEYWORD_DOWNTO";
+      break;
+    case TK_POSINT :
+      return "INTEGER";
+      break;
+    case TK_BOOL :
+      return "BOOLEAN_VALUE";
+      break;
+    case TK_POSREAL :
+      return "REAL";
+      break;
+    case TK_IDENT :
+      return "VAR_IDENTIFIER";
+      break;
+    case TK_STR :
+      return "STRING";
       break;
   }
 }
