@@ -288,7 +288,7 @@ char* tk_type(int token)
       return "REAL";
       break;
     case TK_IDENT :
-      return "VAR_IDENTIFIER";
+      return "IDENTIFIER";
       break;
     case TK_STR :
       return "STRING";
