@@ -42,8 +42,6 @@
   #define OP_LE 297
   #define OP_GE 298
 
-  #define LINE_COMMENT 299
-
   #include <math.h>
   int lineNum = 1;
 %}
@@ -56,12 +54,20 @@ INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
 DECIMAL {INTEGER}\.{NUMBER}
 REAL    {DECIMAL}([eE][+-]?{INTEGER})?
 CAST    \((integer)|(boolean)|(char)|(real)\)
+STRING  [\"`\'][^\"\n]*[\"`\']
 
 %x str
 %x comment
 %x macro
 
 %%
+
+"(*"					BEGIN(comment);
+<comment>[^*\n]*        /* eat anything that's not a '*' */
+<comment>"*"+[^*)\n]*   /* eat up '*'s not followed by ')'s */
+<comment>\n             ++lineNum;
+<comment>"*"+")"        BEGIN(INITIAL);
+
 
 and           return KW_AND;
 array         return KW_ARRAY;
@@ -117,10 +123,16 @@ downto        return KW_DOWNTO;
 ")"           return ')';
 ";"           return ';';
 
-"//"[^\n]*    return LINE_COMMENT;/* eat line comments */
+
+{STRING}      return TK_STR;
+"//"[^\n]*    /* eat line comments */
 [ \r\t]		   /* skip whitespace */
 \n 			      ++lineNum;
 <<EOF>> 	   return EOF;
+
+{ID}         return TK_IDENT;
+
+.           { printf("\nUnrecognized token %s in line %d\n\n", yytext, lineNum); return EOF;}
 
 
 %%
@@ -128,9 +140,6 @@ downto        return KW_DOWNTO;
 char* tk_type(int token)
 {
   switch(token){
-    case LINE_COMMENT :
-      return "LINE_COMMENT";
-      break;
     case '+' :
       return "OP_PLUS";
       break;

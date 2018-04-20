@@ -6,6 +6,10 @@ echo "Hello World Example"
 echo "*********************************************************"
 ./mylexer < hello_world.fl
 echo "*********************************************************"
+echo "Hello World Wrong String Example"
+echo "*********************************************************"
+./mylexer < hello_world_wrong_string.fl
+echo "*********************************************************"
 echo "Useless Example"
 echo "*********************************************************"
 ./mylexer < useless_example.fl

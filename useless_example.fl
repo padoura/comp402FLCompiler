@@ -1,4 +1,4 @@
-# A useless piece of FL code
+// A useless piece of FL code
 @defmacro N 100
 program useless;
 var i, k: integer;
@@ -20,4 +20,4 @@ begin
 k := readInteger();
 i := readInteger();
 add(k,i) #Here you can see some dummy comments!
-end
+end.
