@@ -19,5 +19,5 @@ end;
 begin
 k := readInteger();
 i := readInteger();
-add(k,i) #Here you can see some dummy comments!
+add(k,i) //Here you can see some dummy comments!
 end.
