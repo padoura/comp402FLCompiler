@@ -71,9 +71,11 @@ INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
 DECIMAL {INTEGER}\.{NUMBER}
 REAL    {DECIMAL}([eE][+-]?{INTEGER})?
 CAST    \(integer\)|\(boolean\)|\(char\)|\(real\)
-STRING  [\"`\'][^\"\n]*[\"`\']
+STRING  [\"`\'][^\"\n]*[\"`\'] /*This will be removed*/
 
-%x str
+%x str_dquote /*Fix handling of escape characters based on manual*/
+%x str_squote
+%x str_btick
 %x comment
 %x macro
 
