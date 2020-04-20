@@ -1,7 +1,0 @@
-(* My first Ptuc program *)
-program hello;
-@defmacro message "Hello World!
-\n"
-begin
-writeString(message)
-end.

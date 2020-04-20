@@ -6,16 +6,22 @@ echo "*********************************************************"
 echo "Hello World Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < hello_world.fl
+./mylexer < hello_world.ms
 printf "\n"
 echo "*********************************************************"
 echo "Hello World Wrong String Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < hello_world_wrong_string.fl
+./mylexer < hello_world_wrong_string.ms
 printf "\n"
 echo "*********************************************************"
 echo "Useless Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < useless_example.fl
+./mylexer < useless.ms
+printf "\n"
+echo "*********************************************************"
+echo "Prime Numbers Example"
+echo "*********************************************************"
+printf "\n"
+./mylexer < prime.ms
