@@ -1,4 +1,4 @@
-./compile_and_try_flex.sh > results.txt
+./compile_and_try_flex.sh > results.txt 2>&1
 
 diffResult=$(diff golden.txt results.txt)
 

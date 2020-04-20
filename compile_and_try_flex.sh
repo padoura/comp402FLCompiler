@@ -25,3 +25,9 @@ echo "Prime Numbers Example"
 echo "*********************************************************"
 printf "\n"
 ./mylexer < prime.ms
+printf "\n"
+echo "*********************************************************"
+echo "Hello World Nested Comments"
+echo "*********************************************************"
+printf "\n"
+./mylexer < hello_world_nested_comments.ms

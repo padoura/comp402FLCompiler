@@ -1,46 +1,35 @@
 %{
   #define KW_AND 258
-  #define KW_ARRAY 259
+  #define KW_NUMBER 259
   #define KW_BOOL 260
-  #define KW_CHAR 261
-  #define KW_BEGIN 262
-  #define KW_DIV 263
-  #define KW_DO 264
+  #define KW_STRING 261
+  #define KW_VOID 262
+  #define KW_TRUE 263
+  #define KW_FALSE 264
   #define KW_ELSE 265
   #define KW_FOR 266
-  #define KW_END 267
-  #define KW_FUN 268
-  #define KW_GOTO 269
+  #define KW_CONST 267
+  #define KW_FUNCTION 268
+  #define KW_BREAK 269
   #define KW_IF 270
-  #define KW_INT 271
+  #define KW_CONTINUE 271
   #define KW_VAR 272
-  #define KW_MOD 273
+  #define KW_RET 284
   #define KW_NOT 274
-  #define KW_OF 275
+  #define KW_NULL 275
   #define KW_OR 276
   #define KW_WHILE 277
-  #define KW_PROC 278
-  #define KW_PROG 279
-  #define KW_REAL 280
-  #define KW_REP 281
-  #define KW_TO 282
-  #define KW_RES 283
-  #define KW_RET 284
-  #define KW_THEN 285
-  #define KW_UNTIL 286
-  #define KW_DOWNTO 287
 
   #define TK_IDENT 288
   #define TK_POSINT 289
   #define TK_POSREAL 290
-  #define TK_BOOL 291
-  #define TK_STR 292
+  #define TK_STR 291
 
-  #define OP_CAST 294
-  #define OP_ASSGN 295
-  #define OP_LG 296
-  #define OP_LE 297
-  #define OP_GE 298
+  #define OP_EXPO 293
+  #define OP_EQUALITY 294
+  #define OP_INEQUALITY 295
+  #define OP_LE 296
+  #define OP_GE 297
 
   #include <string.h>
   #include <assert.h>
@@ -66,16 +55,18 @@
 ID [a-zA-Z][0-9a-zA-Z_]*
 DIGIT   [0-9]
 NONZERO_DIGIT [1-9]
-NUMBER  {DIGIT}{DIGIT}*
-INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
-DECIMAL {INTEGER}\.{NUMBER}
-REAL    {DECIMAL}([eE][+-]?{INTEGER})?
-CAST    \(integer\)|\(boolean\)|\(char\)|\(real\)
-STRING  [\"`\'][^\"\n]*[\"`\'] /*This will be removed*/
+DECIMAL_PART  {DIGIT}{DIGIT}*
+POSITIVE_INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
+DECIMAL {POSITIVE_INTEGER}\.{DECIMAL_PART}
+REAL    {DECIMAL}([eE][+-]?{POSITIVE_INTEGER})?
+/* TODO Line below will be removed*/
+STRING  [\"\'][^\"\n]*[\"\']
 
-%x str_dquote /*Fix handling of escape characters based on manual*/
+/* TODO Fix handling of escape characters based on manual*/
+/* TODO Fix double quoted strings*/
+%x str_dquote 
+/* TODO Fix single quoted strings*/
 %x str_squote
-%x str_btick
 %x comment
 %x macro
 
@@ -101,66 +92,56 @@ STRING  [\"`\'][^\"\n]*[\"`\'] /*This will be removed*/
               lineNum++;
 						};
 
-"(*"					BEGIN(comment);
+"/*"					BEGIN(comment);
 <comment>[^*\n]*        /* eat anything that's not a '*' */
-<comment>"*"+[^*)\n]*   /* eat up '*'s not followed by ')'s */
+<comment>"*"+[^*/\n]*   /* eat up '*'s not followed by '/'s */
 <comment>\n             ++lineNum;
-<comment>"*"+")"        BEGIN(INITIAL);
+<comment>"*"+"/"        BEGIN(INITIAL);
 
 
-and           return KW_AND;
-array         return KW_ARRAY;
+number        return KW_NUMBER;
+string        return KW_STRING;
+void          return KW_VOID;
+true          return KW_TRUE;
+false         return KW_FALSE;
+const         return KW_CONST;
+break         return KW_BREAK;
+continue      return KW_CONTINUE;
+null          return KW_NULL;
+
 boolean       return KW_BOOL;
-char          return KW_CHAR;
-begin         return KW_BEGIN;
-div           return KW_DIV;
-do            return KW_DO;
+and           return KW_AND;
 else          return KW_ELSE;
 for           return KW_FOR;
-end           return KW_END;
-function      return KW_FUN;
-goto          return KW_GOTO;
+function      return KW_FUNCTION;
 if            return KW_IF;
-integer       return KW_INT;
 var           return KW_VAR;
-mod           return KW_MOD;
 not           return KW_NOT;
-of            return KW_OF;
 or            return KW_OR;
 while         return KW_WHILE;
-procedure     return KW_PROC;
-program       return KW_PROG;
-real          return KW_REAL;
-repeat        return KW_REP;
-to            return KW_TO;
-result        return KW_RES;
 return        return KW_RET;
-then          return KW_THEN;
-until         return KW_UNTIL;
-downto        return KW_DOWNTO;
 
 "+"           return '+';
 "-"           return '-';
 "*"						return '*';
+"**"				  return OP_EXPO;
 "/"						return '/';
-"="           return '=';
-"<>"          return OP_LG;
+"=="          return OP_EQUALITY;
+"!="          return OP_INEQUALITY;
 "<"           return '<';
 "<="          return OP_LE;
-">"           return '>';
-">="          return OP_GE;
-"&&"          return KW_AND;
-"||"          return KW_OR;
 "!"           return KW_NOT;
-":="          return OP_ASSGN;
-"."           return '.';
+"="           return '=';
+"%"           return '%';
 ":"           return ':';
 ","           return ',';
-"["           return  '[';
+"["           return '[';
 "]"           return ']';
 "("           return '(';
 ")"           return ')';
 ";"           return ';';
+"{"           return '{';
+"}"           return '}';
 
 
 {STRING}      return TK_STR;
@@ -168,10 +149,8 @@ downto        return KW_DOWNTO;
 [ \r\t]		   /* skip whitespace */
 \n 			      ++lineNum;
 
-{INTEGER}   return TK_POSINT;
+{POSITIVE_INTEGER}   return TK_POSINT;
 {REAL}      return TK_POSREAL;
-"true"|"false" return TK_BOOL;
-{CAST}      return OP_CAST;
 
 {ID}  			{
 						   char* def = get_macro(yytext);
@@ -183,7 +162,7 @@ downto        return KW_DOWNTO;
 						   }
 						}
 
-.           { printf("\nUnrecognized token %s in line %d\n\n", yytext, lineNum); return EOF;}
+.           { printf("\nLexical error: Unrecognized token %s in line %d\n\n", yytext, lineNum); return EOF;}
 <<EOF>> 	   return EOF;
 
 %%
@@ -200,13 +179,16 @@ char* tk_type(int token)
     case '*' :
       return "OP_MULTIPLY";
       break;
+    case OP_EXPO :
+      return "OP_EXPONENTIATION";
+      break;
     case '/' :
       return "OP_DIVIDE";
       break;
-    case '=' :
+    case OP_EQUALITY :
       return "OP_EQUALITY";
       break;
-    case OP_LG :
+    case OP_INEQUALITY :
       return "OP_INEQUALITY";
       break;
     case '<' :
@@ -214,12 +196,6 @@ char* tk_type(int token)
       break;
     case OP_LE :
       return "OP_LESS_EQUAL";
-      break;
-    case '>' :
-      return "OP_GREATER";
-      break;
-    case OP_GE :
-      return "OP_GREATER_EQUAL";
       break;
     case KW_AND:
       return "LOGICAL_AND";
@@ -230,11 +206,8 @@ char* tk_type(int token)
     case KW_NOT:
       return "LOGICAL_NOT";
       break;
-    case OP_ASSGN:
+    case '=':
       return "ASSIGNMENT";
-      break;
-    case '.' :
-      return "DOT";
       break;
     case ':' :
       return "COLON";
@@ -248,6 +221,12 @@ char* tk_type(int token)
     case ']' :
       return "RIGHT_BRACKET";
       break;
+    case '{' :
+      return "LEFT_CURLY_BRACKET";
+      break;
+    case '}' :
+      return "RIGHT_CURLY_BRACKET";
+      break;
     case '(' :
       return "LEFT_PARENTHESIS";
       break;
@@ -257,92 +236,35 @@ char* tk_type(int token)
     case ';' :
       return "SEMICOLON";
       break;
-    case KW_ARRAY :
-      return "KEYWORD_ARRAY";
-      break;
     case KW_BOOL :
-      return "KEYWORD_BOOLEAN";
-      break;
-    case KW_CHAR :
-      return "KEYWORD_CHARACTER";
-      break;
-    case KW_BEGIN :
-      return "KEYWORD_BEGIN";
-      break;
-    case KW_DIV :
-      return "OP_INTEGER_DIVISION";
-      break;
-    case KW_DO :
-      return "KEYWORD_DO";
+      return "KW_BOOLEAN";
       break;
     case KW_ELSE :
-      return "KEYWORD_ELSE";
+      return "KW_ELSE";
       break;
     case KW_FOR :
-      return "KEYWORD_FOR";
+      return "KW_FOR";
       break;
-    case KW_END :
-      return "KEYWORD_END";
-      break;
-    case KW_FUN :
-      return "KEYWORD_FUNCTION";
-      break;
-    case KW_GOTO :
-      return "KEYWORD_GOTO";
+    case KW_FUNCTION :
+      return "KW_FUNCTION";
       break;
     case KW_IF :
-      return "KEYWORD_IF";
-      break;
-    case KW_INT :
-      return "KEYWORD_INTEGER";
+      return "KW_IF";
       break;
     case KW_VAR :
-      return "KEYWORD_VAR";
+      return "KW_VAR";
       break;
-    case KW_MOD :
+    case '%' :
       return "OP_MODULO";
       break;
-    case KW_OF :
-      return "KEYWORD_OF";
-      break;
     case KW_WHILE :
-      return "KEYWORD_WHILE";
-      break;
-    case KW_PROC :
-      return "KEYWORD_PROCEDURE";
-      break;
-    case KW_PROG :
-      return "KEYWORD_PROGRAM";
-      break;
-    case KW_REAL :
-      return "KEYWORD_REAL";
-      break;
-    case KW_REP :
-      return "KEYWORD_REPEAT";
-      break;
-    case KW_TO :
-      return "KEYWORD_TO";
-      break;
-    case KW_RES :
-      return "KEYWORD_RESULT";
+      return "KW_WHILE";
       break;
     case KW_RET :
-      return "KEYWORD_RETURN";
-      break;
-    case KW_THEN :
-      return "KEYWORD_THEN";
-      break;
-    case KW_UNTIL :
-      return "KEYWORD_UNTIL";
-      break;
-    case KW_DOWNTO :
-      return "KEYWORD_DOWNTO";
+      return "KW_RETURN";
       break;
     case TK_POSINT :
-      return "INTEGER";
-      break;
-    case TK_BOOL :
-      return "BOOLEAN_VALUE";
+      return "POSITIVE_INTEGER";
       break;
     case TK_POSREAL :
       return "REAL";
@@ -353,9 +275,29 @@ char* tk_type(int token)
     case TK_STR :
       return "STRING";
       break;
-    case OP_CAST :
-      return "OP_CAST";
+    case KW_NUMBER :
+      return "KW_NUMBER";
       break;
+    case KW_CONST :
+      return "KW_CONST";
+      break;
+    case KW_VOID :
+      return "KW_VOID";
+      break;
+    case KW_NULL :
+      return "KW_NULL";
+      break;
+    case KW_FALSE :
+      return "KW_FALSE";
+      break;
+    case KW_TRUE :
+      return "KW_TRUE";
+      break;
+    case KW_STRING :
+      return "KW_STRING";
+      break;
+    default : // lexer should never reach here
+      return "UNCATEGORIZED_TOKEN";
   }
 }
 
