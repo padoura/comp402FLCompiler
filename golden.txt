@@ -1,0 +1,122 @@
+
+*********************************************************
+Hello World Example
+*********************************************************
+
+Line 1 Token OP_DIVIDE: 
+Line 1 Token OP_MULTIPLY: *
+Line 1 Token IDENTIFIER: My
+Line 1 Token IDENTIFIER: first
+Line 1 Token IDENTIFIER: MiniScript
+Line 1 Token KEYWORD_PROGRAM: program
+Line 1 Token DOT: .
+Line 1 Token IDENTIFIER: File
+Line 1 Token COLON: :
+Line 1 Token IDENTIFIER: hello_world
+Line 1 Token DOT: .
+Line 1 Token IDENTIFIER: ms
+Line 1 Token OP_MULTIPLY: *
+Line 1 Token OP_DIVIDE: /
+Line 3 Token IDENTIFIER: const
+Line 3 Token IDENTIFIER: message
+Line 3 Token OP_EQUALITY: =
+Line 3 Token STRING: "Hello world!\n"
+Line 3 Token COLON: :
+Line 3 Token IDENTIFIER: string
+Line 3 Token SEMICOLON: ;
+Line 5 Token KEYWORD_FUNCTION: function
+Line 5 Token IDENTIFIER: start
+Line 5 Token LEFT_PARENTHESIS: (
+Line 5 Token RIGHT_PARENTHESIS: )
+Line 5 Token COLON: :
+Line 5 Token IDENTIFIER: void
+
+Unrecognized token { in line 5
+
+
+*********************************************************
+Hello World Wrong String Example
+*********************************************************
+
+Line 1 Token OP_DIVIDE: /
+Line 1 Token OP_MULTIPLY: *
+Line 1 Token IDENTIFIER: My
+Line 1 Token IDENTIFIER: first
+Line 1 Token IDENTIFIER: MiniScript
+Line 1 Token KEYWORD_PROGRAM: program
+Line 1 Token OP_MULTIPLY: *
+Line 1 Token OP_DIVIDE: /
+Line 3 Token IDENTIFIER: const
+Line 3 Token IDENTIFIER: message
+Line 3 Token OP_EQUALITY: =
+Line 3 Token STRING: "Hello world!\n"
+Line 3 Token COLON: :
+Line 3 Token IDENTIFIER: string
+Line 3 Token SEMICOLON: ;
+Line 5 Token KEYWORD_FUNCTION: function
+Line 5 Token IDENTIFIER: start
+Line 5 Token LEFT_PARENTHESIS: (
+Line 5 Token RIGHT_PARENTHESIS: )
+Line 5 Token COLON: :
+Line 5 Token IDENTIFIER: void
+
+Unrecognized token { in line 5
+
+
+*********************************************************
+Useless Example
+*********************************************************
+
+Line 4 Token IDENTIFIER: const
+Line 4 Token IDENTIFIER: N
+Line 4 Token OP_EQUALITY: =
+Line 4 Token OP_MINUS: -
+Line 4 Token INTEGER: 100
+Line 4 Token COLON: :
+Line 4 Token IDENTIFIER: number
+Line 4 Token SEMICOLON: ;
+Line 5 Token KEYWORD_VAR: var
+Line 5 Token IDENTIFIER: a
+Line 5 Token COMMA: ,
+Line 5 Token IDENTIFIER: b
+Line 5 Token COLON: :
+Line 5 Token IDENTIFIER: number
+Line 5 Token SEMICOLON: ;
+Line 7 Token KEYWORD_FUNCTION: function
+Line 7 Token IDENTIFIER: cube
+Line 7 Token LEFT_PARENTHESIS: (
+Line 7 Token IDENTIFIER: i
+Line 7 Token COLON: :
+Line 7 Token IDENTIFIER: number
+Line 7 Token RIGHT_PARENTHESIS: )
+Line 7 Token COLON: :
+Line 7 Token IDENTIFIER: number
+
+Unrecognized token { in line 7
+
+
+*********************************************************
+Prime Numbers Example
+*********************************************************
+
+Line 3 Token KEYWORD_VAR: var
+Line 3 Token IDENTIFIER: limit
+Line 3 Token COMMA: ,
+Line 3 Token IDENTIFIER: num
+Line 3 Token COMMA: ,
+Line 3 Token IDENTIFIER: counter
+Line 3 Token COLON: :
+Line 3 Token IDENTIFIER: number
+Line 3 Token SEMICOLON: ;
+Line 5 Token KEYWORD_FUNCTION: function
+Line 5 Token IDENTIFIER: prime
+Line 5 Token LEFT_PARENTHESIS: (
+Line 5 Token IDENTIFIER: n
+Line 5 Token COLON: :
+Line 5 Token IDENTIFIER: number
+Line 5 Token RIGHT_PARENTHESIS: )
+Line 5 Token COLON: :
+Line 5 Token KEYWORD_BOOLEAN: boolean
+
+Unrecognized token { in line 5
+
