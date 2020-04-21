@@ -31,3 +31,9 @@ echo "Hello World Nested Comments"
 echo "*********************************************************"
 printf "\n"
 ./mylexer < hello_world_nested_comments.ms
+printf "\n"
+echo "*********************************************************"
+echo "Hello World Unescaped Backslash"
+echo "*********************************************************"
+printf "\n"
+./mylexer < hello_world_unescaped_backslash.ms

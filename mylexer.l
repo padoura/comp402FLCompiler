@@ -45,7 +45,7 @@
   int mactable_size = 0;
 
   /* Return 1 on success, 0 on failure (macro table full) */
-  int set_macro(char* name, char* def);
+  // int set_macro(char* name, char* def);
 
   /* Return def for macro, or NULL if no such macro is defined. */
   char* get_macro(char* name);
@@ -59,38 +59,35 @@ DECIMAL_PART  {DIGIT}{DIGIT}*
 POSITIVE_INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
 DECIMAL {POSITIVE_INTEGER}\.{DECIMAL_PART}
 REAL    {DECIMAL}([eE][+-]?{POSITIVE_INTEGER})?
-/* TODO Line below will be removed*/
-STRING  [\"\'][^\"\n]*[\"\']
 
-/* TODO Fix handling of escape characters based on manual*/
-/* TODO Fix double quoted strings*/
-%x str_dquote 
-/* TODO Fix single quoted strings*/
+%x str_dquote
 %x str_squote
 %x comment
-%x macro
 
 %%
 
-@defmacro[ \r\t]+       BEGIN(macro);
-<macro>{ID}             {
-							/* Store macro name */
-							char* name = strdup(yytext);
-							char* def = NULL;
-							size_t deflen = 0;
-							char c;
 
-							FILE* deff = open_memstream(&def, &deflen);
+"\""          BEGIN(str_dquote); /* TODO Find a way to return matching text*/
+<str_dquote>[^'\"\\\n]*        /* eat anything that's not a quote, escape character or newline */
+<str_dquote>"\\\""*        /* eats escaped double quote */
+<str_dquote>"\\n"*        /* eats newline */
+<str_dquote>"\\t"*        /* eats tab */
+<str_dquote>"\\r"*        /* eats carriage return */
+<str_dquote>"\\\\"*        /* eats escaped backslash */
+<str_dquote>"\\"+[^\\trn\"]*     { printf("\nLexical error: Unescaped backslash character in line %d\n\n", lineNum); return EOF;}
+<str_dquote>"'"     { printf("\nLexical error: Unexpected single quote in line %d\n\n", lineNum); return EOF;}
+<str_dquote>"\""        BEGIN(INITIAL);
 
-							while((c=input())!='\n')
-							   fputc(c, deff);
-							fclose(deff);
-
-							if(!set_macro(name, def))
-								printf("\nlexer error: failed to define macro '%s'\n\n", name);
-							BEGIN(INITIAL);
-              lineNum++;
-						};
+"'"          BEGIN(str_squote);
+<str_squote>[^'\"\\\n]*        /* eat anything that's not a quote, escape character or newline */
+<str_squote>"\\\""*        /* eats escaped double quote */
+<str_squote>"\\n"*        /* eats newline */
+<str_squote>"\\t"*        /* eats tab */
+<str_squote>"\\r"*        /* eats carriage return */
+<str_squote>"\\\\"*        /* eats escaped backslash */
+<str_squote>"\\"+[^\\trn\"]*     { printf("\nLexical error: Unescaped backslash in line %d\n\n", lineNum); return EOF;}
+<str_squote>"\""        { printf("\nLexical error: Unescaped double quote in line %d\n\n", lineNum); return EOF;}
+<str_squote>"'"        BEGIN(INITIAL);
 
 "/*"					BEGIN(comment);
 <comment>[^*\n]*        /* eat anything that's not a '*' */
@@ -144,7 +141,6 @@ return        return KW_RET;
 "}"           return '}';
 
 
-{STRING}      return TK_STR;
 "//"[^\n]*    /* eat line comments */
 [ \r\t]		   /* skip whitespace */
 \n 			      ++lineNum;
@@ -301,32 +297,32 @@ char* tk_type(int token)
   }
 }
 
-int set_macro(char* name, char* def)
-{
-	/* Check to see if macro already defined, and redefine it. */
-	int i;
-	for(i=0; i<mactable_size; i++) {
-		if(strcmp(mactable[i][0], name)==0) {
-			/* found ! */
-			free(name);
-			free(mactable[i][1]);
-			mactable[i][1] = def;
-			break;
-		}
-	}
-	if(i<mactable_size)
-		return 1;
-	else if(mactable_size < MAXMACRO) {
-		/* new entry */
-		assert(i==mactable_size);
-		mactable[i][0] = name;
-		mactable[i][1] = def;
-		mactable_size++;
-		return 1;
-	}
-	else
-		return 0;
-}
+// int set_macro(char* name, char* def)
+// {
+// 	/* Check to see if macro already defined, and redefine it. */
+// 	int i;
+// 	for(i=0; i<mactable_size; i++) {
+// 		if(strcmp(mactable[i][0], name)==0) {
+// 			/* found ! */
+// 			free(name);
+// 			free(mactable[i][1]);
+// 			mactable[i][1] = def;
+// 			break;
+// 		}
+// 	}
+// 	if(i<mactable_size)
+// 		return 1;
+// 	else if(mactable_size < MAXMACRO) {
+// 		/* new entry */
+// 		assert(i==mactable_size);
+// 		mactable[i][0] = name;
+// 		mactable[i][1] = def;
+// 		mactable_size++;
+// 		return 1;
+// 	}
+// 	else
+// 		return 0;
+// }
 
 char* get_macro(char* name)
 {
