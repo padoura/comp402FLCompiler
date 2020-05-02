@@ -1,14 +1,16 @@
+#!/bin/bash
+
 ./compile_and_try_flex.sh > results.txt 2>&1
 
 diffResult=$(diff golden.txt results.txt)
 
-if [[ -z $diffResult ]]; then
+if [ -z $diffResult ]; then
     echo "no diff"
 else
     echo -e "diff found:\n--------------------"
     colordiff golden.txt results.txt
     echo "--------------------"
-    echo "Replace golden? [y/n]"
+    echo "Replace golden? [y/(n)]"
     read isGolden
     isGolden=${isGolden:-n}
 
