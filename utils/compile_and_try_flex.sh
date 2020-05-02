@@ -6,34 +6,34 @@ echo "*********************************************************"
 echo "Hello World Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < hello_world.ms
+./mylexer < examples/hello_world.ms
 printf "\n"
 echo "*********************************************************"
 echo "Hello World Wrong String Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < hello_world_wrong_string.ms
+./mylexer < examples/hello_world_wrong_string.ms
 printf "\n"
 echo "*********************************************************"
 echo "Useless Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < useless.ms
+./mylexer < examples/useless.ms
 printf "\n"
 echo "*********************************************************"
 echo "Prime Numbers Example"
 echo "*********************************************************"
 printf "\n"
-./mylexer < prime.ms
+./mylexer < examples/prime.ms
 printf "\n"
 echo "*********************************************************"
 echo "Hello World Nested Comments"
 echo "*********************************************************"
 printf "\n"
-./mylexer < hello_world_nested_comments.ms
+./mylexer < examples/hello_world_nested_comments.ms
 printf "\n"
 echo "*********************************************************"
 echo "Hello World Unescaped Backslash"
 echo "*********************************************************"
 printf "\n"
-./mylexer < hello_world_unescaped_backslash.ms
+./mylexer < examples/hello_world_unescaped_backslash.ms

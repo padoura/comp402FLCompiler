@@ -1,5 +1,5 @@
 build:
-	./run_regression.sh
+	utils/run_regression.sh
 
 # install: build
 # xxx
