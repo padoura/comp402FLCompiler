@@ -6,7 +6,7 @@ Hello World Example
 Line 3 Token KW_CONST: const
 Line 3 Token IDENTIFIER: message
 Line 3 Token ASSIGNMENT: =
-Line 3 Token STRING: "Hello world!\n"
+Line 3 Token STRING: "Hello world!-+*/:_$#@&~^(),.\n"
 Line 3 Token COLON: :
 Line 3 Token KW_STRING: string
 Line 3 Token SEMICOLON: ;
@@ -386,3 +386,14 @@ Line 6 Token IDENTIFIER: message
 Line 6 Token RIGHT_PARENTHESIS: )
 Line 6 Token SEMICOLON: ;
 Line 7 Token RIGHT_CURLY_BRACKET: }
+
+*********************************************************
+Hello World Unescaped Backslash
+*********************************************************
+
+Line 3 Token KW_CONST: const
+Line 3 Token IDENTIFIER: message
+Line 3 Token ASSIGNMENT: =
+
+Lexical error: Unescaped backslash in line 3
+
