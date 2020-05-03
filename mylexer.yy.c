@@ -612,22 +612,6 @@ char *yytext;
   #include <assert.h>
   int lineNum = 1;
 
-
-  /*
-  	A primitive macro facility:
-  	just one macro is allowed to be defined!
-  */
-  #define MAXMACRO 32
-  char* mactable[MAXMACRO][2];
-  int mactable_size = 0;
-
-  /* Return 1 on success, 0 on failure (macro table full) */
-  // int set_macro(char* name, char* def);
-
-  /* Return def for macro, or NULL if no such macro is defined. */
-  char* get_macro(char* name);
-
-
   char* tk_type(int token);
 
   /* takes care of string literals, dynamic length allocation */
@@ -637,9 +621,9 @@ char *yytext;
   char *s;
   void realloc_buf();
 
-#line 641 "mylexer.yy.c"
+#line 625 "mylexer.yy.c"
 
-#line 643 "mylexer.yy.c"
+#line 627 "mylexer.yy.c"
 
 #define INITIAL 0
 #define str_dquote 1
@@ -859,10 +843,10 @@ YY_DECL
 		}
 
 	{
-#line 78 "mylexer.l"
+#line 62 "mylexer.l"
 
 
-#line 866 "mylexer.yy.c"
+#line 850 "mylexer.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -921,412 +905,404 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 80 "mylexer.l"
+#line 64 "mylexer.l"
 { BEGIN(str_dquote); realloc_buf(); s = buf; *s++ = '"'; strLen++; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 81 "mylexer.l"
+#line 65 "mylexer.l"
 { *s++ = '\\'; *s++ = 'n'; strLen++; realloc_buf(); } /* eats newline */
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 82 "mylexer.l"
+#line 66 "mylexer.l"
 { *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 83 "mylexer.l"
+#line 67 "mylexer.l"
 { *s++ = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 84 "mylexer.l"
+#line 68 "mylexer.l"
 { *s++ = '\\'; *s++ = 't'; strLen++; realloc_buf(); } /* eats tab */
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 85 "mylexer.l"
+#line 69 "mylexer.l"
 { *s++ = '\\'; *s++ = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 86 "mylexer.l"
+#line 70 "mylexer.l"
 { *s++ = '\\'; *s++ = '\\'; strLen++; realloc_buf(); }  /* eats escaped backslash */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 87 "mylexer.l"
+#line 71 "mylexer.l"
 { *s++ = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 88 "mylexer.l"
+#line 72 "mylexer.l"
 { printf("\nLexical error: Unescaped single quote in line %d\n\n", lineNum); return EOF; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 89 "mylexer.l"
+#line 73 "mylexer.l"
 { printf("\nLexical error: Unescaped backslash in line %d\n\n", lineNum); return EOF; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 90 "mylexer.l"
+#line 74 "mylexer.l"
 { *s++ = '"'; strLen++; *s = 0; BEGIN(INITIAL); return TK_STR; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 91 "mylexer.l"
+#line 75 "mylexer.l"
 { printf("\nLexical error: Unexpected character in line %d\n\n", lineNum); return EOF; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 93 "mylexer.l"
+#line 77 "mylexer.l"
 { BEGIN(str_squote); realloc_buf(); s = buf; *s++ = '\''; strLen++; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 94 "mylexer.l"
+#line 78 "mylexer.l"
 { *s++ = '\\'; *s++ = 'n'; strLen++; realloc_buf(); } /* eats newline */
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 95 "mylexer.l"
+#line 79 "mylexer.l"
 { *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 96 "mylexer.l"
+#line 80 "mylexer.l"
 { *s++ = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 97 "mylexer.l"
+#line 81 "mylexer.l"
 { *s++ = '\\'; *s++ = 't'; strLen++; realloc_buf(); } /* eats tab */
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 98 "mylexer.l"
+#line 82 "mylexer.l"
 { *s++ = '\\'; *s++ = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 99 "mylexer.l"
+#line 83 "mylexer.l"
 { *s++ = '\\'; *s++ = '\\'; strLen++; realloc_buf(); }  /* eats escaped backslash */
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 100 "mylexer.l"
+#line 84 "mylexer.l"
 { *s++ = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 101 "mylexer.l"
+#line 85 "mylexer.l"
 { printf("\nLexical error: Unescaped double quote in line %d\n\n", lineNum); return EOF; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 102 "mylexer.l"
+#line 86 "mylexer.l"
 { printf("\nLexical error: Unescaped backslash in line %d\n\n", lineNum); return EOF; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 103 "mylexer.l"
+#line 87 "mylexer.l"
 { *s++ = '"'; strLen++; *s = 0; BEGIN(INITIAL); return TK_STR; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 104 "mylexer.l"
+#line 88 "mylexer.l"
 { printf("\nLexical error: Unexpected character in line %d\n\n", lineNum); return EOF; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 106 "mylexer.l"
+#line 90 "mylexer.l"
 BEGIN(comment);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 107 "mylexer.l"
+#line 91 "mylexer.l"
 /* eat anything that's not a '*' */
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 108 "mylexer.l"
+#line 92 "mylexer.l"
 /* eat up '*'s not followed by '/'s */
 	YY_BREAK
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 109 "mylexer.l"
+#line 93 "mylexer.l"
 ++lineNum;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 110 "mylexer.l"
+#line 94 "mylexer.l"
 BEGIN(INITIAL);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 113 "mylexer.l"
+#line 97 "mylexer.l"
 return KW_NUMBER;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 114 "mylexer.l"
+#line 98 "mylexer.l"
 return KW_STRING;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 115 "mylexer.l"
+#line 99 "mylexer.l"
 return KW_VOID;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 116 "mylexer.l"
+#line 100 "mylexer.l"
 return KW_TRUE;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 117 "mylexer.l"
+#line 101 "mylexer.l"
 return KW_FALSE;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 118 "mylexer.l"
+#line 102 "mylexer.l"
 return KW_CONST;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 119 "mylexer.l"
+#line 103 "mylexer.l"
 return KW_BREAK;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 120 "mylexer.l"
+#line 104 "mylexer.l"
 return KW_CONTINUE;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 121 "mylexer.l"
+#line 105 "mylexer.l"
 return KW_NULL;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 123 "mylexer.l"
+#line 107 "mylexer.l"
 return KW_BOOL;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 124 "mylexer.l"
+#line 108 "mylexer.l"
 return KW_AND;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 125 "mylexer.l"
+#line 109 "mylexer.l"
 return KW_ELSE;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 126 "mylexer.l"
+#line 110 "mylexer.l"
 return KW_FOR;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 127 "mylexer.l"
+#line 111 "mylexer.l"
 return KW_FUNCTION;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 128 "mylexer.l"
+#line 112 "mylexer.l"
 return KW_IF;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 129 "mylexer.l"
+#line 113 "mylexer.l"
 return KW_VAR;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 130 "mylexer.l"
+#line 114 "mylexer.l"
 return KW_NOT;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 131 "mylexer.l"
+#line 115 "mylexer.l"
 return KW_OR;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 132 "mylexer.l"
+#line 116 "mylexer.l"
 return KW_WHILE;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 133 "mylexer.l"
+#line 117 "mylexer.l"
 return KW_RET;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 135 "mylexer.l"
+#line 119 "mylexer.l"
 return '+';
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 136 "mylexer.l"
+#line 120 "mylexer.l"
 return '-';
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 137 "mylexer.l"
+#line 121 "mylexer.l"
 return '*';
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 138 "mylexer.l"
+#line 122 "mylexer.l"
 return OP_EXPO;
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 139 "mylexer.l"
+#line 123 "mylexer.l"
 return '/';
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 140 "mylexer.l"
+#line 124 "mylexer.l"
 return OP_EQUALITY;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 141 "mylexer.l"
+#line 125 "mylexer.l"
 return OP_INEQUALITY;
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 142 "mylexer.l"
+#line 126 "mylexer.l"
 return '<';
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 143 "mylexer.l"
+#line 127 "mylexer.l"
 return OP_LE;
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 144 "mylexer.l"
+#line 128 "mylexer.l"
 return KW_NOT;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 145 "mylexer.l"
+#line 129 "mylexer.l"
 return '=';
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 146 "mylexer.l"
+#line 130 "mylexer.l"
 return '%';
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 147 "mylexer.l"
+#line 131 "mylexer.l"
 return ':';
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 148 "mylexer.l"
+#line 132 "mylexer.l"
 return ',';
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 149 "mylexer.l"
+#line 133 "mylexer.l"
 return '[';
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 150 "mylexer.l"
+#line 134 "mylexer.l"
 return ']';
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 151 "mylexer.l"
+#line 135 "mylexer.l"
 return '(';
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 152 "mylexer.l"
+#line 136 "mylexer.l"
 return ')';
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 153 "mylexer.l"
+#line 137 "mylexer.l"
 return ';';
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 154 "mylexer.l"
+#line 138 "mylexer.l"
 return '{';
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 155 "mylexer.l"
+#line 139 "mylexer.l"
 return '}';
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 158 "mylexer.l"
+#line 142 "mylexer.l"
 /* eat line comments */
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 159 "mylexer.l"
+#line 143 "mylexer.l"
 /* skip whitespace */
 	YY_BREAK
 case 73:
 /* rule 73 can match eol */
 YY_RULE_SETUP
-#line 160 "mylexer.l"
+#line 144 "mylexer.l"
 ++lineNum;
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 162 "mylexer.l"
+#line 146 "mylexer.l"
 return TK_POSINT;
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 163 "mylexer.l"
+#line 147 "mylexer.l"
 return TK_POSREAL;
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 165 "mylexer.l"
-{
-						   char* def = get_macro(yytext);
-						   if(def==NULL) {
-						   		return TK_IDENT;
-						   }
-						   for(int i=strlen(def); i>0; i--) {
-						   	  unput(def[i-1]);
-						   }
-						}
+#line 149 "mylexer.l"
+return TK_IDENT;
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 175 "mylexer.l"
+#line 151 "mylexer.l"
 { printf("\nLexical error: Unrecognized token %s in line %d\n\n", yytext, lineNum); return EOF;}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(str_dquote):
 case YY_STATE_EOF(str_squote):
 case YY_STATE_EOF(comment):
-#line 176 "mylexer.l"
+#line 152 "mylexer.l"
 return EOF;
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 178 "mylexer.l"
+#line 154 "mylexer.l"
 ECHO;
 	YY_BREAK
-#line 1330 "mylexer.yy.c"
+#line 1306 "mylexer.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2329,7 +2305,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 178 "mylexer.l"
+#line 154 "mylexer.l"
 
 
 char* tk_type(int token)
@@ -2464,42 +2440,6 @@ char* tk_type(int token)
     default : // lexer should never reach here
       return "UNCATEGORIZED_TOKEN";
   }
-}
-
-// int set_macro(char* name, char* def)
-// {
-// 	/* Check to see if macro already defined, and redefine it. */
-// 	int i;
-// 	for(i=0; i<mactable_size; i++) {
-// 		if(strcmp(mactable[i][0], name)==0) {
-// 			/* found ! */
-// 			free(name);
-// 			free(mactable[i][1]);
-// 			mactable[i][1] = def;
-// 			break;
-// 		}
-// 	}
-// 	if(i<mactable_size)
-// 		return 1;
-// 	else if(mactable_size < MAXMACRO) {
-// 		/* new entry */
-// 		assert(i==mactable_size);
-// 		mactable[i][0] = name;
-// 		mactable[i][1] = def;
-// 		mactable_size++;
-// 		return 1;
-// 	}
-// 	else
-// 		return 0;
-// }
-
-char* get_macro(char* name)
-{
-	for(int i=0;i<mactable_size; i++) {
-		if(strcmp(mactable[i][0], name)==0)
-			return mactable[i][1];
-	}
-	return NULL;
 }
 
 void realloc_buf(){
