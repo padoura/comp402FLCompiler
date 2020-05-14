@@ -1,38 +1,6 @@
 %{
-  #define KW_AND 258
-  #define KW_NUMBER 259
-  #define KW_BOOL 260
-  #define KW_STRING 261
-  #define KW_VOID 262
-  #define KW_TRUE 263
-  #define KW_FALSE 264
-  #define KW_ELSE 265
-  #define KW_FOR 266
-  #define KW_CONST 267
-  #define KW_FUNCTION 268
-  #define KW_BREAK 269
-  #define KW_IF 270
-  #define KW_CONTINUE 271
-  #define KW_VAR 272
-  #define KW_RET 284
-  #define KW_NOT 274
-  #define KW_NULL 275
-  #define KW_OR 276
-  #define KW_WHILE 277
-
-  #define TK_IDENT 288
-  #define TK_POSINT 289
-  #define TK_POSREAL 290
-  #define TK_STR 291
-
-  #define OP_EXPO 293
-  #define OP_EQUALITY 294
-  #define OP_INEQUALITY 295
-  #define OP_LE 296
-  #define OP_GE 297
-
   #include <string.h>
-  #include <assert.h>
+  #include "myparser.tab.h"
   int lineNum = 1;
 
   char* tk_type(int token);

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-utils/compile_and_try_flex.sh > results/results.txt 2>&1
-
 diffResult=$(diff results/golden.txt results/results.txt)
 
 if [ -z $diffResult ]; then
