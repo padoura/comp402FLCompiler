@@ -47,6 +47,13 @@
 %start input
 
 %type <str> constant_decl
+%type <str> boolean_value
+%type <str> boolean_constant
+%type <str> string_constant
+%type <str> number_value
+%type <str> number_constant
+%type <str> constant_instance
+
 %type <str> variable_decl
 %type <str> function_decl
 %type <str> optional_decl
@@ -54,7 +61,12 @@
 
 %type <str> in_fun_stmt
 
+
+
+
 %%
+
+// Program syntax
 
 input:  
   start_decl 
@@ -68,7 +80,7 @@ input:
 { 
   if (yyerror_count == 0) {
     puts(c_prologue);
-    printf("%s%s\n", $1, $2);
+    printf("%s\n%s\n", $1, $2);
   }  
 }
 ;
@@ -78,19 +90,57 @@ start_decl:
 ;
 
 optional_decl:
-  constant_decl variable_decl function_decl
-| variable_decl function_decl
-| constant_decl function_decl
-| function_decl
-| constant_decl variable_decl
-| constant_decl
-| variable_decl
+  constant_decl variable_decl function_decl { $$ = template("%s %s %s", $1, $2, $3); }
+| variable_decl function_decl { $$ = template("%s %s", $1, $2); }
+| constant_decl function_decl { $$ = template("%s %s", $1, $2); }
+| function_decl { $$ = template("%s", $1); }
+| constant_decl variable_decl { $$ = template("%s %s", $1, $2); }
+| constant_decl { $$ = template("%s", $1); }
+| variable_decl { $$ = template("%s", $1); }
 | %empty { $$ = template(""); }
 ;
 
+// Constant declarations
+
 constant_decl:
-  %empty { $$ = template(""); }
+  KW_CONST constant_instance { $$ = template("const %s", $2); }
+| constant_decl KW_CONST constant_instance { $$ = template("%s\nconst %s", $1, $3); }
 ;
+
+constant_instance:
+  number_constant ':' KW_NUMBER ';' { $$ = template("double %s;", $1); }
+| string_constant ':' KW_STRING ';' { $$ = template("string %s;", $1); }
+| boolean_constant ':' KW_BOOL ';' { $$ = template("int %s;", $1); }
+;
+
+number_constant:
+  TK_IDENT '=' number_value { $$ = template("%s = %s", $1, $3); }
+| number_constant ',' TK_IDENT '=' number_value { $$ = template("%s, %s = %s", $1, $3, $5); }
+;
+
+number_value:
+  TK_POSINT { $$ = template("%s", $1); }
+| TK_POSREAL { $$ = template("%s", $1); }
+| '-' TK_POSINT { $$ = template("-%s", $2); }
+| '-' TK_POSREAL { $$ = template("-%s", $2); }
+;
+
+string_constant:
+  TK_IDENT '=' TK_STR { $$ = template("%s = %s", $1, $3); }
+| string_constant ',' TK_IDENT '=' TK_STR { $$ = template("%s, %s = %s", $1, $3, $5); }
+;
+
+boolean_constant:
+  TK_IDENT '=' boolean_value { $$ = template("%s = %s", $1, $3); }
+| boolean_constant ',' TK_IDENT '=' boolean_value { $$ = template("%s, %s = %s", $1, $3, $5); }
+;
+
+boolean_value:
+  KW_TRUE { $$ = template("1"); }
+| KW_FALSE { $$ = template("0"); }
+;
+
+//
 
 variable_decl:
   %empty { $$ = template(""); }
@@ -106,6 +156,5 @@ in_fun_stmt:
 
 %%
 int main () {
-  if ( yyparse() != 0 )
-    printf("Rejected!\n");
+  yyparse();
 }

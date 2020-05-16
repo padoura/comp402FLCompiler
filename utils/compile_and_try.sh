@@ -42,3 +42,9 @@ echo "Empty Start"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/start/empty_body.ms
+printf "\n"
+echo "*********************************************************"
+echo "Constant Declaration: Single Dimension"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/constants/single_dim.ms

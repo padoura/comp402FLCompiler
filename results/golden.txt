@@ -1,15 +1,12 @@
 myparser.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 myparser.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
-myparser.y:88.3-31: warning: rule useless in parser due to conflicts [-Wother]
+myparser.y:100.3-31: warning: rule useless in parser due to conflicts [-Wother]
  | %empty { $$ = template(""); }
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-myparser.y:92.3-31: warning: rule useless in parser due to conflicts [-Wother]
+myparser.y:146.3-31: warning: rule useless in parser due to conflicts [-Wother]
    %empty { $$ = template(""); }
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-myparser.y:96.3-31: warning: rule useless in parser due to conflicts [-Wother]
-   %empty { $$ = template(""); }
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-myparser.y:100.3-31: warning: rule useless in parser due to conflicts [-Wother]
+myparser.y:150.3-31: warning: rule useless in parser due to conflicts [-Wother]
    %empty { $$ = template(""); }
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -17,37 +14,34 @@ myparser.y:100.3-31: warning: rule useless in parser due to conflicts [-Wother]
 Hello World Example
 *********************************************************
 
-line 3: syntax errorRejected!
-
+line 6: syntax error
 *********************************************************
 Hello World Wrong String Example
 *********************************************************
 
-line 3: syntax errorRejected!
-
+line 6: syntax error
 *********************************************************
 Useless Example
 *********************************************************
 
-line 4: syntax errorRejected!
-
+line 5: syntax error
 *********************************************************
 Prime Numbers Example
 *********************************************************
 
-line 3: syntax errorRejected!
-
+line 3: syntax error
 *********************************************************
 Hello World Nested Comments
 *********************************************************
 
-line 1: syntax errorRejected!
-
+line 1: syntax error
 *********************************************************
 Hello World Unescaped Backslash
 *********************************************************
 
-line 3: syntax errorRejected!
+line 3: syntax error
+Lexical error: Unescaped backslash in line 3
+
 
 *********************************************************
 Empty Start
@@ -56,6 +50,23 @@ Empty Start
 #include "mslib.h"
 
 
+void main() {
+	 
+}
+
+*********************************************************
+Constant Declaration: Single Dimension
+*********************************************************
+
+#include "mslib.h"
+
+
+const double n = -100;
+const double a = 1.20, b = 2e-1;
+const string str1 = "test";
+const string str2 = "test2", str3 = "test3";
+const int isTrue = 1, isFalse = 0;
+const int isTest = 1;
 void main() {
 	 
 }
