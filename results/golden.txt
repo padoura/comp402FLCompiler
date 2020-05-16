@@ -1,399 +1,61 @@
+myparser.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+myparser.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y:88.3-31: warning: rule useless in parser due to conflicts [-Wother]
+ | %empty { $$ = template(""); }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+myparser.y:92.3-31: warning: rule useless in parser due to conflicts [-Wother]
+   %empty { $$ = template(""); }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+myparser.y:96.3-31: warning: rule useless in parser due to conflicts [-Wother]
+   %empty { $$ = template(""); }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+myparser.y:100.3-31: warning: rule useless in parser due to conflicts [-Wother]
+   %empty { $$ = template(""); }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *********************************************************
 Hello World Example
 *********************************************************
 
-Line 3 Token KW_CONST: const
-Line 3 Token IDENTIFIER: message
-Line 3 Token ASSIGNMENT: =
-Line 3 Token STRING: "Hello world!-+*/:_$#@&~^(),.\n"
-Line 3 Token COLON: :
-Line 3 Token KW_STRING: string
-Line 3 Token SEMICOLON: ;
-Line 5 Token KW_FUNCTION: function
-Line 5 Token IDENTIFIER: start
-Line 5 Token LEFT_PARENTHESIS: (
-Line 5 Token RIGHT_PARENTHESIS: )
-Line 5 Token COLON: :
-Line 5 Token KW_VOID: void
-Line 5 Token LEFT_CURLY_BRACKET: {
-Line 6 Token IDENTIFIER: writeString
-Line 6 Token LEFT_PARENTHESIS: (
-Line 6 Token IDENTIFIER: message
-Line 6 Token RIGHT_PARENTHESIS: )
-Line 6 Token SEMICOLON: ;
-Line 7 Token RIGHT_CURLY_BRACKET: }
+line 3: syntax errorRejected!
 
 *********************************************************
 Hello World Wrong String Example
 *********************************************************
 
-Line 3 Token KW_CONST: const
-Line 3 Token IDENTIFIER: message
-Line 3 Token ASSIGNMENT: =
-Line 3 Token STRING: "Hello world!\n"
-Line 3 Token COLON: :
-Line 3 Token KW_STRING: string
-Line 3 Token SEMICOLON: ;
-Line 5 Token KW_FUNCTION: function
-Line 5 Token IDENTIFIER: start
-Line 5 Token LEFT_PARENTHESIS: (
-Line 5 Token RIGHT_PARENTHESIS: )
-Line 5 Token COLON: :
-Line 5 Token KW_VOID: void
-Line 5 Token LEFT_CURLY_BRACKET: {
-Line 6 Token IDENTIFIER: writeString
-Line 6 Token LEFT_PARENTHESIS: (
-Line 6 Token IDENTIFIER: message
-Line 7 Token RIGHT_CURLY_BRACKET: }
+line 3: syntax errorRejected!
 
 *********************************************************
 Useless Example
 *********************************************************
 
-Line 4 Token KW_CONST: const
-Line 4 Token IDENTIFIER: N
-Line 4 Token ASSIGNMENT: =
-Line 4 Token OP_MINUS: -
-Line 4 Token POSITIVE_INTEGER: 100
-Line 4 Token COLON: :
-Line 4 Token KW_NUMBER: number
-Line 4 Token SEMICOLON: ;
-Line 5 Token KW_VAR: var
-Line 5 Token IDENTIFIER: a
-Line 5 Token COMMA: ,
-Line 5 Token IDENTIFIER: b
-Line 5 Token COLON: :
-Line 5 Token KW_NUMBER: number
-Line 5 Token SEMICOLON: ;
-Line 7 Token KW_FUNCTION: function
-Line 7 Token IDENTIFIER: cube
-Line 7 Token LEFT_PARENTHESIS: (
-Line 7 Token IDENTIFIER: i
-Line 7 Token COLON: :
-Line 7 Token KW_NUMBER: number
-Line 7 Token RIGHT_PARENTHESIS: )
-Line 7 Token COLON: :
-Line 7 Token KW_NUMBER: number
-Line 7 Token LEFT_CURLY_BRACKET: {
-Line 8 Token KW_RETURN: return
-Line 8 Token IDENTIFIER: i
-Line 8 Token OP_MULTIPLY: *
-Line 8 Token IDENTIFIER: i
-Line 8 Token OP_MULTIPLY: *
-Line 8 Token IDENTIFIER: i
-Line 8 Token SEMICOLON: ;
-Line 9 Token RIGHT_CURLY_BRACKET: }
-Line 11 Token KW_FUNCTION: function
-Line 11 Token IDENTIFIER: add
-Line 11 Token LEFT_PARENTHESIS: (
-Line 11 Token IDENTIFIER: n
-Line 11 Token COLON: :
-Line 11 Token KW_NUMBER: number
-Line 11 Token COMMA: ,
-Line 11 Token IDENTIFIER: k
-Line 11 Token COLON: :
-Line 11 Token KW_NUMBER: number
-Line 11 Token RIGHT_PARENTHESIS: )
-Line 11 Token COLON: :
-Line 11 Token KW_NUMBER: number
-Line 11 Token LEFT_CURLY_BRACKET: {
-Line 12 Token KW_VAR: var
-Line 12 Token IDENTIFIER: j
-Line 12 Token COLON: :
-Line 12 Token KW_NUMBER: number
-Line 12 Token SEMICOLON: ;
-Line 13 Token IDENTIFIER: j
-Line 13 Token ASSIGNMENT: =
-Line 13 Token LEFT_PARENTHESIS: (
-Line 13 Token IDENTIFIER: N
-Line 13 Token OP_MINUS: -
-Line 13 Token IDENTIFIER: n
-Line 13 Token RIGHT_PARENTHESIS: )
-Line 13 Token OP_PLUS: +
-Line 13 Token IDENTIFIER: cube
-Line 13 Token LEFT_PARENTHESIS: (
-Line 13 Token IDENTIFIER: k
-Line 13 Token RIGHT_PARENTHESIS: )
-Line 13 Token SEMICOLON: ;
-Line 14 Token IDENTIFIER: writeNumber
-Line 14 Token LEFT_PARENTHESIS: (
-Line 14 Token IDENTIFIER: j
-Line 14 Token RIGHT_PARENTHESIS: )
-Line 14 Token SEMICOLON: ;
-Line 15 Token KW_RETURN: return
-Line 15 Token IDENTIFIER: j
-Line 15 Token SEMICOLON: ;
-Line 16 Token RIGHT_CURLY_BRACKET: }
-Line 22 Token KW_FUNCTION: function
-Line 22 Token IDENTIFIER: start
-Line 22 Token LEFT_PARENTHESIS: (
-Line 22 Token RIGHT_PARENTHESIS: )
-Line 22 Token COLON: :
-Line 22 Token KW_VOID: void
-Line 22 Token LEFT_CURLY_BRACKET: {
-Line 23 Token IDENTIFIER: a
-Line 23 Token ASSIGNMENT: =
-Line 23 Token IDENTIFIER: readNumber
-Line 23 Token LEFT_PARENTHESIS: (
-Line 23 Token RIGHT_PARENTHESIS: )
-Line 23 Token SEMICOLON: ;
-Line 24 Token IDENTIFIER: b
-Line 24 Token ASSIGNMENT: =
-Line 24 Token IDENTIFIER: readNumber
-Line 24 Token LEFT_PARENTHESIS: (
-Line 24 Token RIGHT_PARENTHESIS: )
-Line 24 Token SEMICOLON: ;
-Line 25 Token IDENTIFIER: add
-Line 25 Token LEFT_PARENTHESIS: (
-Line 25 Token IDENTIFIER: a
-Line 25 Token COMMA: ,
-Line 25 Token IDENTIFIER: b
-Line 25 Token RIGHT_PARENTHESIS: )
-Line 25 Token SEMICOLON: ;
-Line 26 Token RIGHT_CURLY_BRACKET: }
+line 4: syntax errorRejected!
 
 *********************************************************
 Prime Numbers Example
 *********************************************************
 
-Line 3 Token KW_VAR: var
-Line 3 Token IDENTIFIER: limit
-Line 3 Token COMMA: ,
-Line 3 Token IDENTIFIER: num
-Line 3 Token COMMA: ,
-Line 3 Token IDENTIFIER: counter
-Line 3 Token COLON: :
-Line 3 Token KW_NUMBER: number
-Line 3 Token SEMICOLON: ;
-Line 5 Token KW_FUNCTION: function
-Line 5 Token IDENTIFIER: prime
-Line 5 Token LEFT_PARENTHESIS: (
-Line 5 Token IDENTIFIER: n
-Line 5 Token COLON: :
-Line 5 Token KW_NUMBER: number
-Line 5 Token RIGHT_PARENTHESIS: )
-Line 5 Token COLON: :
-Line 5 Token KW_BOOLEAN: boolean
-Line 5 Token LEFT_CURLY_BRACKET: {
-Line 6 Token KW_VAR: var
-Line 6 Token IDENTIFIER: i
-Line 6 Token COLON: :
-Line 6 Token KW_NUMBER: number
-Line 6 Token SEMICOLON: ;
-Line 7 Token KW_VAR: var
-Line 7 Token IDENTIFIER: result
-Line 7 Token COMMA: ,
-Line 7 Token IDENTIFIER: isPrime
-Line 7 Token COLON: :
-Line 7 Token KW_BOOLEAN: boolean
-Line 7 Token SEMICOLON: ;
-Line 8 Token KW_IF: if
-Line 8 Token LEFT_PARENTHESIS: (
-Line 8 Token IDENTIFIER: n
-Line 8 Token OP_LESS: <
-Line 8 Token POSITIVE_INTEGER: 0
-Line 8 Token RIGHT_PARENTHESIS: )
-Line 9 Token IDENTIFIER: result
-Line 9 Token ASSIGNMENT: =
-Line 9 Token IDENTIFIER: prime
-Line 9 Token LEFT_PARENTHESIS: (
-Line 9 Token OP_MINUS: -
-Line 9 Token IDENTIFIER: n
-Line 9 Token RIGHT_PARENTHESIS: )
-Line 9 Token SEMICOLON: ;
-Line 10 Token KW_ELSE: else
-Line 10 Token KW_IF: if
-Line 10 Token LEFT_PARENTHESIS: (
-Line 10 Token IDENTIFIER: n
-Line 10 Token OP_LESS: <
-Line 10 Token POSITIVE_INTEGER: 2
-Line 10 Token RIGHT_PARENTHESIS: )
-Line 11 Token IDENTIFIER: result
-Line 11 Token ASSIGNMENT: =
-Line 11 Token KW_FALSE: false
-Line 11 Token SEMICOLON: ;
-Line 12 Token KW_ELSE: else
-Line 12 Token KW_IF: if
-Line 12 Token LEFT_PARENTHESIS: (
-Line 12 Token IDENTIFIER: n
-Line 12 Token OP_EQUALITY: ==
-Line 12 Token POSITIVE_INTEGER: 2
-Line 12 Token RIGHT_PARENTHESIS: )
-Line 13 Token IDENTIFIER: result
-Line 13 Token ASSIGNMENT: =
-Line 13 Token KW_TRUE: true
-Line 13 Token SEMICOLON: ;
-Line 14 Token KW_ELSE: else
-Line 14 Token KW_IF: if
-Line 14 Token LEFT_PARENTHESIS: (
-Line 14 Token IDENTIFIER: n
-Line 14 Token OP_MODULO: %
-Line 14 Token POSITIVE_INTEGER: 2
-Line 14 Token OP_EQUALITY: ==
-Line 14 Token POSITIVE_INTEGER: 0
-Line 14 Token RIGHT_PARENTHESIS: )
-Line 15 Token IDENTIFIER: result
-Line 15 Token ASSIGNMENT: =
-Line 15 Token KW_FALSE: false
-Line 15 Token SEMICOLON: ;
-Line 16 Token KW_ELSE: else
-Line 16 Token LEFT_CURLY_BRACKET: {
-Line 17 Token IDENTIFIER: i
-Line 17 Token ASSIGNMENT: =
-Line 17 Token POSITIVE_INTEGER: 3
-Line 17 Token SEMICOLON: ;
-Line 18 Token IDENTIFIER: isPrime
-Line 18 Token ASSIGNMENT: =
-Line 18 Token KW_TRUE: true
-Line 18 Token SEMICOLON: ;
-Line 19 Token KW_WHILE: while
-Line 19 Token LEFT_PARENTHESIS: (
-Line 19 Token IDENTIFIER: isPrime
-Line 19 Token LOGICAL_AND: and
-Line 19 Token LEFT_PARENTHESIS: (
-Line 19 Token IDENTIFIER: i
-Line 19 Token OP_LESS: <
-Line 19 Token IDENTIFIER: n
-Line 19 Token OP_DIVIDE: /
-Line 19 Token POSITIVE_INTEGER: 2
-Line 19 Token RIGHT_PARENTHESIS: )
-Line 19 Token RIGHT_PARENTHESIS: )
-Line 19 Token LEFT_CURLY_BRACKET: {
-Line 20 Token IDENTIFIER: isPrime
-Line 20 Token ASSIGNMENT: =
-Line 20 Token IDENTIFIER: n
-Line 20 Token OP_MODULO: %
-Line 20 Token IDENTIFIER: i
-Line 20 Token OP_INEQUALITY: !=
-Line 20 Token POSITIVE_INTEGER: 0
-Line 20 Token SEMICOLON: ;
-Line 21 Token IDENTIFIER: i
-Line 21 Token ASSIGNMENT: =
-Line 21 Token IDENTIFIER: i
-Line 21 Token OP_PLUS: +
-Line 21 Token POSITIVE_INTEGER: 2
-Line 21 Token SEMICOLON: ;
-Line 22 Token RIGHT_CURLY_BRACKET: }
-Line 22 Token SEMICOLON: ;
-Line 23 Token IDENTIFIER: result
-Line 23 Token ASSIGNMENT: =
-Line 23 Token IDENTIFIER: isPrime
-Line 23 Token SEMICOLON: ;
-Line 24 Token RIGHT_CURLY_BRACKET: }
-Line 24 Token SEMICOLON: ;
-Line 25 Token KW_RETURN: return
-Line 25 Token IDENTIFIER: result
-Line 25 Token SEMICOLON: ;
-Line 26 Token RIGHT_CURLY_BRACKET: }
-Line 28 Token KW_FUNCTION: function
-Line 28 Token IDENTIFIER: start
-Line 28 Token LEFT_PARENTHESIS: (
-Line 28 Token RIGHT_PARENTHESIS: )
-Line 28 Token COLON: :
-Line 28 Token KW_VOID: void
-Line 28 Token LEFT_CURLY_BRACKET: {
-Line 29 Token IDENTIFIER: limit
-Line 29 Token ASSIGNMENT: =
-Line 29 Token IDENTIFIER: readNumber
-Line 29 Token LEFT_PARENTHESIS: (
-Line 29 Token RIGHT_PARENTHESIS: )
-Line 29 Token SEMICOLON: ;
-Line 30 Token IDENTIFIER: counter
-Line 30 Token ASSIGNMENT: =
-Line 30 Token POSITIVE_INTEGER: 0
-Line 30 Token SEMICOLON: ;
-Line 31 Token IDENTIFIER: num
-Line 31 Token ASSIGNMENT: =
-Line 31 Token POSITIVE_INTEGER: 2
-Line 31 Token SEMICOLON: ;
-Line 32 Token KW_WHILE: while
-Line 32 Token LEFT_PARENTHESIS: (
-Line 32 Token IDENTIFIER: num
-Line 32 Token OP_LESS_EQUAL: <=
-Line 32 Token IDENTIFIER: limit
-Line 32 Token RIGHT_PARENTHESIS: )
-Line 32 Token LEFT_CURLY_BRACKET: {
-Line 33 Token KW_IF: if
-Line 33 Token LEFT_PARENTHESIS: (
-Line 33 Token IDENTIFIER: prime
-Line 33 Token LEFT_PARENTHESIS: (
-Line 33 Token IDENTIFIER: num
-Line 33 Token RIGHT_PARENTHESIS: )
-Line 33 Token RIGHT_PARENTHESIS: )
-Line 33 Token LEFT_CURLY_BRACKET: {
-Line 34 Token IDENTIFIER: counter
-Line 34 Token ASSIGNMENT: =
-Line 34 Token IDENTIFIER: counter
-Line 34 Token OP_PLUS: +
-Line 34 Token POSITIVE_INTEGER: 1
-Line 34 Token SEMICOLON: ;
-Line 35 Token IDENTIFIER: writeNumber
-Line 35 Token LEFT_PARENTHESIS: (
-Line 35 Token IDENTIFIER: num
-Line 35 Token RIGHT_PARENTHESIS: )
-Line 35 Token SEMICOLON: ;
-Line 36 Token IDENTIFIER: writeString
-Line 36 Token LEFT_PARENTHESIS: (
-Line 36 Token STRING: " "
-Line 36 Token RIGHT_PARENTHESIS: )
-Line 36 Token SEMICOLON: ;
-Line 37 Token RIGHT_CURLY_BRACKET: }
-Line 37 Token SEMICOLON: ;
-Line 38 Token IDENTIFIER: num
-Line 38 Token ASSIGNMENT: =
-Line 38 Token IDENTIFIER: num
-Line 38 Token OP_PLUS: +
-Line 38 Token POSITIVE_INTEGER: 1
-Line 38 Token SEMICOLON: ;
-Line 39 Token RIGHT_CURLY_BRACKET: }
-Line 39 Token SEMICOLON: ;
-Line 40 Token IDENTIFIER: writeString
-Line 40 Token LEFT_PARENTHESIS: (
-Line 40 Token STRING: "\n"
-Line 40 Token RIGHT_PARENTHESIS: )
-Line 40 Token SEMICOLON: ;
-Line 41 Token IDENTIFIER: writeNumber
-Line 41 Token LEFT_PARENTHESIS: (
-Line 41 Token IDENTIFIER: counter
-Line 41 Token RIGHT_PARENTHESIS: )
-Line 41 Token SEMICOLON: ;
-Line 42 Token RIGHT_CURLY_BRACKET: }
+line 3: syntax errorRejected!
 
 *********************************************************
 Hello World Nested Comments
 *********************************************************
 
-Line 1 Token OP_MULTIPLY: *
-Line 1 Token OP_DIVIDE: /
-Line 3 Token KW_CONST: const
-Line 3 Token IDENTIFIER: message
-Line 3 Token ASSIGNMENT: =
-Line 3 Token STRING: "Hello world!\n"
-Line 3 Token COLON: :
-Line 3 Token KW_STRING: string
-Line 3 Token SEMICOLON: ;
-Line 5 Token KW_FUNCTION: function
-Line 5 Token IDENTIFIER: start
-Line 5 Token LEFT_PARENTHESIS: (
-Line 5 Token RIGHT_PARENTHESIS: )
-Line 5 Token COLON: :
-Line 5 Token KW_VOID: void
-Line 5 Token LEFT_CURLY_BRACKET: {
-Line 6 Token IDENTIFIER: writeString
-Line 6 Token LEFT_PARENTHESIS: (
-Line 6 Token IDENTIFIER: message
-Line 6 Token RIGHT_PARENTHESIS: )
-Line 6 Token SEMICOLON: ;
-Line 7 Token RIGHT_CURLY_BRACKET: }
+line 1: syntax errorRejected!
 
 *********************************************************
 Hello World Unescaped Backslash
 *********************************************************
 
-Line 3 Token KW_CONST: const
-Line 3 Token IDENTIFIER: message
-Line 3 Token ASSIGNMENT: =
+line 3: syntax errorRejected!
 
-Lexical error: Unescaped backslash in line 3
+*********************************************************
+Empty Start
+*********************************************************
 
+#include "mslib.h"
+
+
+void main() {
+	 
+}
