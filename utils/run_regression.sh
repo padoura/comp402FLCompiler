@@ -2,7 +2,7 @@
 
 diffResult=$(diff results/golden.txt results/results.txt)
 
-if [ -z $diffResult ]; then
+if [[ -z $diffResult ]]; then
     echo "no diff"
 else
     echo -e "diff found:\n--------------------"

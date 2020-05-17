@@ -55,6 +55,19 @@
 %type <str> constant_instance
 
 %type <str> variable_decl
+%type <str> uninitialized_variables
+%type <str> number_instance
+%type <str> string_instance
+%type <str> boolean_instance
+%type <str> uninitialized_boolean_variables
+%type <str> uninitialized_string_variables
+%type <str> uninitialized_number_variables
+%type <str> boolean_decl_ending_part
+%type <str> string_decl_ending_part
+%type <str> number_decl_ending_part
+
+
+
 %type <str> function_decl
 %type <str> optional_decl
 %type <str> start_decl
@@ -66,7 +79,7 @@
 
 %%
 
-// Program syntax
+// **************** Program syntax ****************
 
 input:  
   start_decl 
@@ -100,7 +113,7 @@ optional_decl:
 | %empty { $$ = template(""); }
 ;
 
-// Constant declarations
+// **************** Constant declarations ****************
 
 constant_decl:
   KW_CONST constant_instance { $$ = template("const %s", $2); }
@@ -109,7 +122,7 @@ constant_decl:
 
 constant_instance:
   number_constant ':' KW_NUMBER ';' { $$ = template("double %s;", $1); }
-| string_constant ':' KW_STRING ';' { $$ = template("string %s;", $1); }
+| string_constant ':' KW_STRING ';' { $$ = template("char* %s;", $1); }
 | boolean_constant ':' KW_BOOL ';' { $$ = template("int %s;", $1); }
 ;
 
@@ -140,11 +153,76 @@ boolean_value:
 | KW_FALSE { $$ = template("0"); }
 ;
 
-//
+// **************** Variable declarations ****************
 
 variable_decl:
-  %empty { $$ = template(""); }
+  KW_VAR number_instance ':' KW_NUMBER ';' { $$ = template("double %s;", $2); }
+| KW_VAR string_instance ':' KW_STRING ';' { $$ = template("char* %s;", $2); }
+| KW_VAR boolean_instance ':' KW_BOOL ';' { $$ = template("int %s;", $2); }  
+| variable_decl KW_VAR number_instance ':' KW_NUMBER ';' { $$ = template("%s\ndouble %s;", $1, $3); }
+| variable_decl KW_VAR string_instance ':' KW_STRING ';' { $$ = template("%s\nchar* %s;", $1, $3); }
+| variable_decl KW_VAR boolean_instance ':' KW_BOOL ';' { $$ = template("%s\nint %s;", $1, $3); }
+| uninitialized_variables { $$ = template("%s", $1); }
+| variable_decl uninitialized_variables { $$ = template("%s\n%s", $1, $2); }
 ;
+
+number_instance:
+  number_constant { $$ = template("%s", $1); }
+| number_constant ',' number_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT ',' number_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT { $$ = template("%s", $1); }
+;
+
+string_instance:
+  string_constant { $$ = template("%s", $1); }
+| string_constant ',' string_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT ',' string_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT { $$ = template("%s", $1); }
+;
+
+boolean_instance:
+  boolean_constant { $$ = template("%s", $1); }
+| boolean_constant ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT { $$ = template("%s", $1); }
+;
+
+// Covers case with >1 uninitialized variables and 0 initialized, should stay at the bottom of this part
+
+uninitialized_variables:
+  uninitialized_number_variables { $$ = template("%s", $1); }
+| uninitialized_string_variables { $$ = template("%s", $1); }
+| uninitialized_boolean_variables { $$ = template("%s", $1); }
+;
+
+uninitialized_number_variables:
+  KW_VAR number_decl_ending_part { $$ = template("double %s;", $2); }
+;
+
+number_decl_ending_part:
+  TK_IDENT ':' KW_NUMBER ';'  { $$ = template("%s", $1); }
+| TK_IDENT ',' number_decl_ending_part { $$ = template("%s, %s", $1, $3); }
+;
+
+uninitialized_string_variables:
+  KW_VAR string_decl_ending_part { $$ = template("char* %s;", $2); }
+;
+
+string_decl_ending_part:
+  TK_IDENT ':' KW_STRING ';'  { $$ = template("%s", $1); }
+| TK_IDENT ',' string_decl_ending_part { $$ = template("%s, %s", $1, $3); }
+;
+
+uninitialized_boolean_variables:
+  KW_VAR boolean_decl_ending_part { $$ = template("int %s;", $2); }
+;
+
+boolean_decl_ending_part:
+  TK_IDENT ':' KW_BOOL ';'  { $$ = template("%s", $1); }
+| TK_IDENT ',' boolean_decl_ending_part { $$ = template("%s, %s", $1, $3); }
+;
+
+//
 
 function_decl:
   %empty { $$ = template(""); }

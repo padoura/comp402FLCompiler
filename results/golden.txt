@@ -1,12 +1,9 @@
-myparser.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-myparser.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
-myparser.y:100.3-31: warning: rule useless in parser due to conflicts [-Wother]
+myparser.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+myparser.y: warning: 11 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y:113.3-31: warning: rule useless in parser due to conflicts [-Wother]
  | %empty { $$ = template(""); }
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-myparser.y:146.3-31: warning: rule useless in parser due to conflicts [-Wother]
-   %empty { $$ = template(""); }
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-myparser.y:150.3-31: warning: rule useless in parser due to conflicts [-Wother]
+myparser.y:228.3-31: warning: rule useless in parser due to conflicts [-Wother]
    %empty { $$ = template(""); }
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -24,12 +21,12 @@ line 6: syntax error
 Useless Example
 *********************************************************
 
-line 5: syntax error
+line 7: syntax error
 *********************************************************
 Prime Numbers Example
 *********************************************************
 
-line 3: syntax error
+line 5: syntax error
 *********************************************************
 Hello World Nested Comments
 *********************************************************
@@ -63,10 +60,30 @@ Constant Declaration: Single Dimension
 
 const double n = -100;
 const double a = 1.20, b = 2e-1;
-const string str1 = "test";
-const string str2 = "test2", str3 = "test3";
+const char* str1 = "test";
+const char* str2 = "test2", str3 = "test3";
 const int isTrue = 1, isFalse = 0;
 const int isTest = 1;
+void main() {
+	 
+}
+
+*********************************************************
+Variable Declaration: Single Dimension
+*********************************************************
+
+#include "mslib.h"
+
+
+double n = -100;
+double a, b = 2e+0;
+char* str1 = '"test"';
+char* str1 = '"test"\n', str10;
+char* str2, str3, str4;
+char* str25, str36 = "xxx", str47, str99;
+char* str35;
+int isTrue = 1, isFalse = 0;
+int isTest;
 void main() {
 	 
 }
