@@ -22,8 +22,8 @@ NONZERO_DIGIT [1-9]
 DECIMAL_PART  {DIGIT}{DIGIT}*
 POSITIVE_INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
 DECIMAL {POSITIVE_INTEGER}\.{DECIMAL_PART}
-REAL    {DECIMAL}([eE][+-]?{POSITIVE_INTEGER})?
-COMMON_CHAR [ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.]|DIGIT
+REAL    ({DECIMAL}|{POSITIVE_INTEGER})([eE][+-]?{POSITIVE_INTEGER})?
+COMMON_CHAR ([ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.])|{DIGIT}
 
 %x str_dquote
 %x str_squote
