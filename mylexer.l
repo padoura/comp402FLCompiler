@@ -20,9 +20,9 @@ ID [a-zA-Z][0-9a-zA-Z_]*
 DIGIT   [0-9]
 NONZERO_DIGIT [1-9]
 DECIMAL_PART  {DIGIT}{DIGIT}*
-POSITIVE_INTEGER  ({NONZERO_DIGIT}{DIGIT}*)|0
-DECIMAL {POSITIVE_INTEGER}\.{DECIMAL_PART}
-REAL    ({DECIMAL}|{POSITIVE_INTEGER})([eE][+-]?{POSITIVE_INTEGER})?
+POSITIVE_INTEGER  ({NONZERO_DIGIT}{DIGIT}*)
+DECIMAL ({POSITIVE_INTEGER}|0)\.{DECIMAL_PART}
+REAL    ({DECIMAL}|{POSITIVE_INTEGER}|0)([eE][+-]?({POSITIVE_INTEGER}|0))?
 COMMON_CHAR ([ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.])|{DIGIT}
 
 %x str_dquote
@@ -108,6 +108,7 @@ return        return KW_RET;
 ";"           return ';';
 "{"           return '{';
 "}"           return '}';
+"0"           return '0';
 
 
 "//"[^\n]*    /* eat line comments */

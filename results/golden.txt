@@ -1,11 +1,11 @@
 myparser.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 myparser.y: warning: 11 reduce/reduce conflicts [-Wconflicts-rr]
-myparser.y:113.3-31: warning: rule useless in parser due to conflicts [-Wother]
- | %empty { $$ = template(""); }
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-myparser.y:228.3-31: warning: rule useless in parser due to conflicts [-Wother]
-   %empty { $$ = template(""); }
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+myparser.y:115.3-21: warning: rule useless in parser due to conflicts [-Wother]
+ | %empty { $$ = ""; }
+   ^^^^^^^^^^^^^^^^^^^
+myparser.y:230.3-21: warning: rule useless in parser due to conflicts [-Wother]
+   %empty { $$ = ""; }
+   ^^^^^^^^^^^^^^^^^^^
 
 *********************************************************
 Hello World Example
@@ -52,7 +52,7 @@ void main() {
 }
 
 *********************************************************
-Constant Declaration: Single Dimension
+Constant Declaration: Scalars
 *********************************************************
 
 #include "mslib.h"
@@ -69,7 +69,7 @@ void main() {
 }
 
 *********************************************************
-Variable Declaration: Single Dimension
+Variable Declaration: Scalars
 *********************************************************
 
 #include "mslib.h"

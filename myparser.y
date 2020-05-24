@@ -46,6 +46,8 @@
 
 %start input
 
+%type <str> tk_posint_or_zero
+
 %type <str> constant_decl
 %type <str> boolean_value
 %type <str> boolean_constant
@@ -106,11 +108,11 @@ optional_decl:
   constant_decl variable_decl function_decl { $$ = template("%s %s %s", $1, $2, $3); }
 | variable_decl function_decl { $$ = template("%s %s", $1, $2); }
 | constant_decl function_decl { $$ = template("%s %s", $1, $2); }
-| function_decl { $$ = template("%s", $1); }
+| function_decl { $$ = $1; }
 | constant_decl variable_decl { $$ = template("%s %s", $1, $2); }
-| constant_decl { $$ = template("%s", $1); }
-| variable_decl { $$ = template("%s", $1); }
-| %empty { $$ = template(""); }
+| constant_decl { $$ = $1; }
+| variable_decl { $$ = $1; }
+| %empty { $$ = ""; }
 ;
 
 // **************** Constant declarations ****************
@@ -132,9 +134,9 @@ number_constant:
 ;
 
 number_value:
-  TK_POSINT { $$ = template("%s", $1); }
-| TK_POSREAL { $$ = template("%s", $1); }
-| '-' TK_POSINT { $$ = template("-%s", $2); }
+  tk_posint_or_zero { $$ = $1; }
+| TK_POSREAL { $$ = $1; }
+| '-' tk_posint_or_zero { $$ = template("-%s", $2); }
 | '-' TK_POSREAL { $$ = template("-%s", $2); }
 ;
 
@@ -149,8 +151,8 @@ boolean_constant:
 ;
 
 boolean_value:
-  KW_TRUE { $$ = template("1"); }
-| KW_FALSE { $$ = template("0"); }
+  KW_TRUE { $$ = "1"; }
+| KW_FALSE { $$ = "0"; }
 ;
 
 // **************** Variable declarations ****************
@@ -162,37 +164,43 @@ variable_decl:
 | variable_decl KW_VAR number_instance ':' KW_NUMBER ';' { $$ = template("%s\ndouble %s;", $1, $3); }
 | variable_decl KW_VAR string_instance ':' KW_STRING ';' { $$ = template("%s\nchar* %s;", $1, $3); }
 | variable_decl KW_VAR boolean_instance ':' KW_BOOL ';' { $$ = template("%s\nint %s;", $1, $3); }
-| uninitialized_variables { $$ = template("%s", $1); }
+| uninitialized_variables { $$ = $1; }
 | variable_decl uninitialized_variables { $$ = template("%s\n%s", $1, $2); }
 ;
 
 number_instance:
-  number_constant { $$ = template("%s", $1); }
+  number_constant { $$ = $1; }
 | number_constant ',' number_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' number_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT { $$ = template("%s", $1); }
+| TK_IDENT { $$ = $1; }
+| TK_IDENT '[' TK_POSINT ']' ',' number_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
+| TK_IDENT '[' TK_POSINT ']' { $$ = template("%s[%s]", $1, $3); }
 ;
 
 string_instance:
-  string_constant { $$ = template("%s", $1); }
+  string_constant { $$ = $1; }
 | string_constant ',' string_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' string_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT { $$ = template("%s", $1); }
+| TK_IDENT { $$ = $1; }
+| TK_IDENT '[' TK_POSINT ']' ',' string_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
+| TK_IDENT '[' TK_POSINT ']' { $$ = template("%s[%s]", $1, $3); }
 ;
 
 boolean_instance:
-  boolean_constant { $$ = template("%s", $1); }
+  boolean_constant { $$ = $1; }
 | boolean_constant ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT { $$ = template("%s", $1); }
+| TK_IDENT { $$ = $1; }
+| TK_IDENT '[' TK_POSINT ']' ',' boolean_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
+| TK_IDENT '[' TK_POSINT ']' { $$ = template("%s[%s]", $1, $3); }
 ;
 
 // Covers case with >1 uninitialized variables and 0 initialized, should stay at the bottom of this part
 
 uninitialized_variables:
-  uninitialized_number_variables { $$ = template("%s", $1); }
-| uninitialized_string_variables { $$ = template("%s", $1); }
-| uninitialized_boolean_variables { $$ = template("%s", $1); }
+  uninitialized_number_variables { $$ = $1; }
+| uninitialized_string_variables { $$ = $1; }
+| uninitialized_boolean_variables { $$ = $1; }
 ;
 
 uninitialized_number_variables:
@@ -200,7 +208,7 @@ uninitialized_number_variables:
 ;
 
 number_decl_ending_part:
-  TK_IDENT ':' KW_NUMBER ';'  { $$ = template("%s", $1); }
+  TK_IDENT ':' KW_NUMBER ';'  { $$ = $1; }
 | TK_IDENT ',' number_decl_ending_part { $$ = template("%s, %s", $1, $3); }
 ;
 
@@ -209,7 +217,7 @@ uninitialized_string_variables:
 ;
 
 string_decl_ending_part:
-  TK_IDENT ':' KW_STRING ';'  { $$ = template("%s", $1); }
+  TK_IDENT ':' KW_STRING ';'  { $$ = $1; }
 | TK_IDENT ',' string_decl_ending_part { $$ = template("%s, %s", $1, $3); }
 ;
 
@@ -218,19 +226,29 @@ uninitialized_boolean_variables:
 ;
 
 boolean_decl_ending_part:
-  TK_IDENT ':' KW_BOOL ';'  { $$ = template("%s", $1); }
+  TK_IDENT ':' KW_BOOL ';'  { $$ = $1; }
 | TK_IDENT ',' boolean_decl_ending_part { $$ = template("%s, %s", $1, $3); }
 ;
 
 //
 
 function_decl:
-  %empty { $$ = template(""); }
+  %empty { $$ = ""; }
 ;
 
 in_fun_stmt:
-  %empty { $$ = template(""); }
+  %empty { $$ = ""; }
 ;
+
+
+// **************** Misc ****************
+
+tk_posint_or_zero:
+  TK_POSINT { $$ = $1; }
+| '0' { $$ = "0"; }
+;
+  
+
 
 %%
 int main () {

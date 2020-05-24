@@ -44,13 +44,19 @@ printf "\n"
 ./mycomp < examples/declarations/start/empty_body.ms
 printf "\n"
 echo "*********************************************************"
-echo "Constant Declaration: Single Dimension"
+echo "Constant Declaration: Scalars"
 echo "*********************************************************"
 printf "\n"
-./mycomp < examples/declarations/constants/single_dim.ms
+./mycomp < examples/declarations/constants/scalars.ms
 printf "\n"
 echo "*********************************************************"
-echo "Variable Declaration: Single Dimension"
+echo "Variable Declaration: Scalars"
 echo "*********************************************************"
 printf "\n"
-./mycomp < examples/declarations/variables/single_dim.ms
+./mycomp < examples/declarations/variables/scalars.ms
+printf "\n"
+echo "*********************************************************"
+echo "Constant Declaration: Arrays"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/declarations/variables/arrays.ms
