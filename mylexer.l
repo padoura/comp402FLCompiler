@@ -33,7 +33,7 @@ COMMON_CHAR ([ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.])|{DIGIT}
 
 "\""                            { BEGIN(str_dquote); realloc_buf(); s = buf; *s++ = '"'; strLen++; }
 <str_dquote>"\\n"               { *s++ = '\\'; *s++ = 'n'; strLen++; realloc_buf(); } /* eats newline */
-<str_dquote>"\\\""              { *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
+<str_dquote>"\\\""              { *s++ = '\\'; *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
 <str_dquote>"\\\'"              { *s++ = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
 <str_dquote>"\\t"               { *s++ = '\\'; *s++ = 't'; strLen++; realloc_buf(); } /* eats tab */
 <str_dquote>"\\r"               { *s++ = '\\'; *s++ = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
@@ -44,9 +44,9 @@ COMMON_CHAR ([ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.])|{DIGIT}
 <str_dquote>"\""                { *s++ = '"'; strLen++; *s = 0; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
 <str_dquote>.                   { printf("\nLexical error: Unexpected character in line %d\n\n", lineNum); return EOF; }
 
-"\'"                            { BEGIN(str_squote); realloc_buf(); s = buf; *s++ = '\''; strLen++; }
+"\'"                            { BEGIN(str_squote); realloc_buf(); s = buf; *s++ = '"'; strLen++; }
 <str_squote>"\\n"               { *s++ = '\\'; *s++ = 'n'; strLen++; realloc_buf(); } /* eats newline */
-<str_squote>"\\\""              { *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
+<str_squote>"\\\""              { *s++ = '\\'; *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
 <str_squote>"\\\'"              { *s++ = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
 <str_squote>"\\t"               { *s++ = '\\'; *s++ = 't'; strLen++; realloc_buf(); } /* eats tab */
 <str_squote>"\\r"               { *s++ = '\\'; *s++ = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
@@ -54,7 +54,7 @@ COMMON_CHAR ([ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.])|{DIGIT}
 <str_squote>{COMMON_CHAR}       { *s++ = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
 <str_squote>"\""                { printf("\nLexical error: Unescaped double quote in line %d\n\n", lineNum); return EOF; }
 <str_squote>"\\"                { printf("\nLexical error: Unescaped backslash in line %d\n\n", lineNum); return EOF; }
-<str_squote>"'"                 { *s++ = '\''; strLen++; *s = 0; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
+<str_squote>"'"                 { *s++ = '"'; strLen++; *s = 0; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
 <str_squote>.                   { printf("\nLexical error: Unexpected character in line %d\n\n", lineNum); return EOF; }
 
 "/*"					          BEGIN(comment);
