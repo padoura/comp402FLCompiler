@@ -210,6 +210,8 @@ uninitialized_number_variables:
 number_decl_ending_part:
   TK_IDENT ':' KW_NUMBER ';'  { $$ = $1; }
 | TK_IDENT ',' number_decl_ending_part { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' ':' KW_NUMBER ';'  { $$ = template("%s[%s]", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' ',' number_decl_ending_part { $$ = template("%s[%s], %s", $1, $3, $6); }
 ;
 
 uninitialized_string_variables:
@@ -219,6 +221,8 @@ uninitialized_string_variables:
 string_decl_ending_part:
   TK_IDENT ':' KW_STRING ';'  { $$ = $1; }
 | TK_IDENT ',' string_decl_ending_part { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' ':' KW_STRING ';'  { $$ = template("%s[%s]", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' ',' string_decl_ending_part { $$ = template("%s[%s], %s", $1, $3, $6); }
 ;
 
 uninitialized_boolean_variables:
@@ -228,6 +232,8 @@ uninitialized_boolean_variables:
 boolean_decl_ending_part:
   TK_IDENT ':' KW_BOOL ';'  { $$ = $1; }
 | TK_IDENT ',' boolean_decl_ending_part { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' ':' KW_BOOL ';'  { $$ = template("%s[%s]", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' ',' boolean_decl_ending_part { $$ = template("%s[%s], %s", $1, $3, $6); }
 ;
 
 //
