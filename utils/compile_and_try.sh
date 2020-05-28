@@ -60,3 +60,9 @@ echo "Constant Declaration: Arrays"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/declarations/variables/arrays.ms
+printf "\n"
+echo "*********************************************************"
+echo "Function Declaration: Empty Functions"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/declarations/functions/empty_functions.ms

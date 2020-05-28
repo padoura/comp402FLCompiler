@@ -1,11 +1,5 @@
-myparser.y: warning: 3 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 12 reduce/reduce conflicts [-Wconflicts-rr]
-myparser.y:115.3-21: warning: rule useless in parser due to conflicts [-Wother]
- | %empty { $$ = ""; }
-   ^^^^^^^^^^^^^^^^^^^
-myparser.y:242.3-21: warning: rule useless in parser due to conflicts [-Wother]
-   %empty { $$ = ""; }
-   ^^^^^^^^^^^^^^^^^^^
+myparser.y: warning: 6 shift/reduce conflicts [-Wconflicts-sr]
+myparser.y: warning: 8 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -98,12 +92,40 @@ Constant Declaration: Arrays
 double n = -100;
 double a[2], b = 2e+0;
 char* str1 = "\"test\"";
-char* str1 = "\"test\"\n", str10[10];
+char* str11 = "\"test\"\n", str10[10];
 char* str2[2], str3[3], str4[4];
 char* str25[25], str36 = "xxx", str47[47], str99;
 char* str35[35];
 int isTrue = 1, isBoolArray[2], isFalse = 0;
 int isTest[100];
+void main() {
+	 
+}
+
+*********************************************************
+Function Declaration: Empty Functions
+*********************************************************
+
+#include "mslib.h"
+
+
+void noReturn() {
+	 
+}
+
+void noReturnVoid() {
+	 
+}
+
+void withReturn() {
+	 
+return;
+}
+
+void returnVoid() {
+	 
+return;
+}
 void main() {
 	 
 }
