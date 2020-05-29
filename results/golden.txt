@@ -20,7 +20,7 @@ void main() {
 Hello World Wrong String Example
 *********************************************************
 
-line 7: syntax error
+line 7: syntax error, unexpected '}', expecting ')' or ','
 *********************************************************
 Useless Example
 *********************************************************
@@ -56,17 +56,17 @@ void main() {
 Prime Numbers Example
 *********************************************************
 
-line 23: syntax error
+line 23: syntax error, unexpected TK_IDENT, expecting ';'
 *********************************************************
 Hello World Nested Comments
 *********************************************************
 
-line 1: syntax error
+line 1: syntax error, unexpected '*', expecting KW_CONST or KW_FUNCTION or KW_VAR
 *********************************************************
 Hello World Unescaped Backslash
 *********************************************************
 
-line 3: syntax error
+line 3: syntax error, unexpected $end
 Lexical error: Unescaped backslash in line 3
 
 

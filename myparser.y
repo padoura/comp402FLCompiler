@@ -11,6 +11,8 @@
   char* str;
 }
 
+%define parse.error verbose
+
 %token KW_AND
 %token KW_NUMBER
 %token KW_BOOL
