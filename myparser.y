@@ -42,7 +42,6 @@
 %token OP_EQUALITY
 %token OP_INEQUALITY
 %token OP_LE
-%token OP_GE
 
 %start input
 
@@ -85,13 +84,23 @@
 %type <str> in_block_stmts
 
 %type <str> expr
+%type <str> bool_expr
+%type <str> num_expr
 
 %type <str> function_decl
 %type <str> start_decl
 
+// %precedence ')'
+// %precedence KW_ELSE
 
 
-
+%left KW_OR
+%left KW_AND
+%left OP_EQUALITY OP_INEQUALITY OP_LE '<'
+%left '-' '+'
+%left '*' '/' '%'
+%right OP_EXPO
+%right KW_NOT
 
 %%
 
@@ -341,7 +350,42 @@ input_fun_call_exprs:
 
 // **************** Expressions ****************
 expr:
-  %empty { $$ = ""; }
+  bool_expr { $$ = $1; }
+| num_expr { $$ = $1; }
+| TK_STR { $$ = $1; }
+;
+
+bool_expr:
+  KW_TRUE { $$ = "1"; }
+| KW_FALSE { $$ = "0"; }
+| TK_IDENT { $$ = $1; }
+| TK_IDENT '[' num_expr ']' { $$ = template("%s[(int) (%s)]", $1, $3); }
+| stmt_fun_call { $$ = $1; }
+| num_expr OP_EQUALITY num_expr { $$ = template("(%s==%s)", $1, $3); }
+| num_expr OP_LE num_expr { $$ = template("(%s<=%s)", $1, $3); }
+| num_expr '<' num_expr { $$ = template("(%s<%s)", $1, $3); }
+| num_expr OP_INEQUALITY num_expr { $$ = template("(%s!=%s)", $1, $3); }
+| '(' bool_expr ')' { $$ = template("(%s)", $2); }
+| bool_expr KW_AND bool_expr { $$ = template("(%s && %s)", $1, $3); }
+| bool_expr KW_OR bool_expr { $$ = template("(%s || %s)", $1, $3); }
+| KW_NOT bool_expr { $$ = template("!(%s)", $2); }
+;
+
+num_expr:
+  TK_IDENT { $$ = $1; }
+| TK_IDENT '[' num_expr ']' { $$ = template("%s[(int) (%s)]", $1, $3); }
+| stmt_fun_call { $$ = $1; }
+| tk_posint_or_zero { $$ = $1; }
+| TK_POSREAL { $$ = $1; }
+| '(' num_expr ')' { $$ = template(" (%s) ", $2); }
+| num_expr '+' num_expr { $$ = template(" (%s+%s) ", $1, $3); }
+| num_expr '-' num_expr { $$ = template(" (%s-%s) ", $1, $3); }
+| num_expr '/' num_expr { $$ = template(" (%s/%s) ", $1, $3); }
+| num_expr '%' num_expr { $$ = template(" (%s\%%s) ", $1, $3); }
+| num_expr '*' num_expr { $$ = template(" (%s*%s) ", $1, $3); }
+| num_expr OP_EXPO num_expr { $$ = template("pow(%s, %s)", $1, $3); }
+| '-' num_expr { $$ = template("(-%s)", $2); }
+| '+' num_expr { $$ = template("(+%s)", $2); }
 ;
 
 // **************** Misc ****************

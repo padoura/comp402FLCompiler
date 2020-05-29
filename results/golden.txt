@@ -1,21 +1,29 @@
-myparser.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 8 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 6 shift/reduce conflicts [-Wconflicts-sr]
+myparser.y: warning: 17 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
 *********************************************************
 
-line 6: syntax error
+#include "mslib.h"
+
+
+const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
+
+void main() {
+	 writeString(message);
+}
+
 *********************************************************
 Hello World Wrong String Example
 *********************************************************
 
-line 6: syntax error
+line 7: syntax error
 *********************************************************
 Useless Example
 *********************************************************
 
-line 8: syntax error
+line 12: syntax error
 *********************************************************
 Prime Numbers Example
 *********************************************************
