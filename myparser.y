@@ -68,13 +68,23 @@
 %type <str> string_decl_ending_part
 %type <str> number_decl_ending_part
 
-%type <str> expression
 %type <str> in_fun_body
 %type <str> in_void_fun_body
 %type <str> in_fun_stmts
 %type <str> in_void_fun_stmts
 %type <str> function_input
 
+%type <str> stmt
+%type <str> block_stmt
+%type <str> stmt_assignment
+%type <str> stmt_for
+%type <str> stmt_while
+%type <str> stmt_if
+%type <str> stmt_fun_call
+%type <str> input_fun_call_exprs
+%type <str> in_block_stmts
+
+%type <str> expr
 
 %type <str> function_decl
 %type <str> start_decl
@@ -246,6 +256,8 @@ in_void_fun_body:
 
 in_void_fun_stmts:
   KW_RET ';' { $$ = "\nreturn;"; }
+| in_block_stmts { $$ = $1; }
+| in_block_stmts KW_RET ';' { $$ = template("%s\nreturn;", $1); }
 | %empty { $$ = ""; }
 ;
 
@@ -256,7 +268,8 @@ in_fun_body:
 ;
 
 in_fun_stmts:
-  KW_RET expression';' { $$ = "\nreturn;"; }
+  KW_RET expr ';' { $$ = template("\nreturn %s;", $2); }
+| in_block_stmts KW_RET expr ';' { $$ = template("%s\nreturn%s;", $1, $3); }
 ;
 
 function_input:
@@ -275,8 +288,59 @@ function_input:
 | %empty { $$ = ""; }
 ;
 
-//
-expression:
+// **************** Statements ****************
+
+stmt:
+  stmt_assignment { $$ = $1; }
+| stmt_if { $$ = $1; }
+| stmt_for { $$ = $1; }
+| stmt_while { $$ = $1; }
+| stmt_fun_call { $$ = $1; }
+;
+
+in_block_stmts:
+  in_block_stmts stmt ';' { $$ = template("%s\n%s;", $1, $2); }
+| stmt ';' { $$ = template("%s;", $1); }
+;
+
+block_stmt:
+  '{' in_block_stmts '}' ';' { $$ = template("{\n%s\n}", $2); }
+| stmt ';' { $$ = template("\n%s;", $1); }
+;
+
+stmt_assignment:
+  TK_IDENT '=' expr { $$ = template("%s = %s", $1, $3); }
+;
+
+stmt_if:
+  KW_IF '(' expr ')' block_stmt KW_ELSE block_stmt { $$ = template("if(%s)%selse%s", $3, $5, $7); }
+| KW_IF '(' expr ')' block_stmt { $$ = template("if(%s)%s", $3, $5); }
+;
+
+stmt_for:
+  KW_FOR '(' stmt ';' expr ';' stmt ')' block_stmt { $$ = template("for(%s;%s;%s)%s", $3, $5, $7, $9); }
+;
+
+stmt_while:
+  KW_WHILE '(' expr ')' block_stmt { $$ = template("while(%s)%s", $3, $5); }
+;
+
+// TODO KW_BREAK
+// TODO KW_CONTINUE
+// TODO KW_RET
+
+stmt_fun_call:
+  TK_IDENT '(' input_fun_call_exprs ')' { $$ = template("%s(%s)", $1, $3); }
+| TK_IDENT '(' ')' { $$ = template("%s()", $1); }
+;
+
+input_fun_call_exprs:
+  input_fun_call_exprs ',' expr { $$ = template("%s, %s", $1, $3); }
+| expr { $$ = $1; }
+;
+
+// **************** Expressions ****************
+expr:
   %empty { $$ = ""; }
 ;
 
