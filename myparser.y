@@ -71,8 +71,8 @@
 %type <str> expression
 %type <str> in_fun_body
 %type <str> in_void_fun_body
-%type <str> in_fun_cmds
-%type <str> in_void_fun_cmds
+%type <str> in_fun_stmts
+%type <str> in_void_fun_stmts
 %type <str> function_input
 
 
@@ -89,13 +89,13 @@
 
 input:
   start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n", $1); } }
-| constant_decl variable_decl function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s %s\n%s\n", $1, $2, $3, $4); } }
-| variable_decl function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s\n%s\n", $1, $2, $3); } }
-| constant_decl function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s\n%s\n", $1, $2, $3); } }
-| function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n%s\n", $1, $2); } }
-| constant_decl variable_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s\n%s\n", $1, $2, $3); } }
-| constant_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n%s\n", $1, $2); } }
-| variable_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n%s\n", $1, $2); } }
+| constant_decl variable_decl function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s %s\n\n%s\n", $1, $2, $3, $4); } }
+| variable_decl function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s\n\n%s\n", $1, $2, $3); } }
+| constant_decl function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s\n\n%s\n", $1, $2, $3); } }
+| function_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n\n%s\n", $1, $2); } }
+| constant_decl variable_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s %s\n\n%s\n", $1, $2, $3); } }
+| constant_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n\n%s\n", $1, $2); } }
+| variable_decl start_decl { if (yyerror_count == 0) { puts(c_prologue); printf("%s\n\n%s\n", $1, $2); } }
 ;
 
 start_decl:
@@ -241,10 +241,10 @@ function_decl:
 in_void_fun_body:
   in_void_fun_body constant_decl { $$ = template("%s\n%s", $1, $2); }
 | in_void_fun_body variable_decl { $$ = template("%s\n%s", $1, $2); }
-| in_void_fun_cmds { $$ = $1; }
+| in_void_fun_stmts { $$ = $1; }
 ;
 
-in_void_fun_cmds:
+in_void_fun_stmts:
   KW_RET ';' { $$ = "\nreturn;"; }
 | %empty { $$ = ""; }
 ;
@@ -252,20 +252,31 @@ in_void_fun_cmds:
 in_fun_body:
   in_fun_body constant_decl  { $$ = template("%s\n%s", $1, $2); }
 | in_fun_body variable_decl  { $$ = template("%s\n%s", $1, $2); }
-| in_fun_cmds { $$ = $1; }
+| in_fun_stmts { $$ = $1; }
 ;
 
-in_fun_cmds:
+in_fun_stmts:
   KW_RET expression';' { $$ = "\nreturn;"; }
+;
+
+function_input:
+  TK_IDENT ':' KW_NUMBER { $$ = template("double %s", $1); }
+| TK_IDENT ':' KW_BOOL { $$ = template("int %s", $1); }
+| TK_IDENT ':' KW_STRING { $$ = template("char* %s", $1); }
+| function_input ',' TK_IDENT ':' KW_NUMBER { $$ = template("%s, double %s", $1, $3); }
+| function_input ',' TK_IDENT ':' KW_BOOL { $$ = template("%s, int %s", $1, $3); }
+| function_input ',' TK_IDENT ':' KW_STRING { $$ = template("%s, char* %s", $1, $3); }
+| TK_IDENT '[' ']' ':' KW_NUMBER { $$ = template("double* %s", $1); }
+| TK_IDENT '[' ']' ':' KW_BOOL { $$ = template("int* %s", $1); }
+| TK_IDENT '[' ']' ':' KW_STRING { $$ = template("char** %s", $1); }
+| function_input ',' TK_IDENT '[' ']' ':' KW_NUMBER { $$ = template("%s, double* %s", $1, $3); }
+| function_input ',' TK_IDENT '[' ']' ':' KW_BOOL { $$ = template("%s, int* %s", $1, $3); }
+| function_input ',' TK_IDENT '[' ']' ':' KW_STRING { $$ = template("%s, char** %s", $1, $3); }
+| %empty { $$ = ""; }
 ;
 
 //
 expression:
-  %empty { $$ = ""; }
-;
-
-//
-function_input:
   %empty { $$ = ""; }
 ;
 

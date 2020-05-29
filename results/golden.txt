@@ -15,12 +15,12 @@ line 6: syntax error
 Useless Example
 *********************************************************
 
-line 7: syntax error
+line 8: syntax error
 *********************************************************
 Prime Numbers Example
 *********************************************************
 
-line 5: syntax error
+line 6: syntax error
 *********************************************************
 Hello World Nested Comments
 *********************************************************
@@ -58,6 +58,7 @@ const char* str1 = "test";
 const char* str2 = "test2", str3 = "test3";
 const int isTrue = 1, isFalse = 0;
 const int isTest = 1;
+
 void main() {
 	 
 }
@@ -78,6 +79,7 @@ char* str25, str36 = "xxx", str47, str99;
 char* str35;
 int isTrue = 1, isFalse = 0;
 int isTest;
+
 void main() {
 	 
 }
@@ -98,6 +100,7 @@ char* str25[25], str36 = "xxx", str47[47], str99;
 char* str35[35];
 int isTrue = 1, isBoolArray[2], isFalse = 0;
 int isTest[100];
+
 void main() {
 	 
 }
@@ -126,6 +129,36 @@ void returnVoid() {
 	 
 return;
 }
+
+void main() {
+	 
+}
+
+*********************************************************
+Function Declaration: Empty Functions with Input
+*********************************************************
+
+#include "mslib.h"
+
+
+void noReturn(double a) {
+	 
+}
+
+void noReturnVoid(double beta, int isSomething, char* some32String) {
+	 
+}
+
+void withReturn(int i_0, int i_1, int i_2, double* i_3) {
+	 
+return;
+}
+
+void returnVoid(char** stringArray) {
+	 
+return;
+}
+
 void main() {
 	 
 }
