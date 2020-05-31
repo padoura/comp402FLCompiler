@@ -72,3 +72,9 @@ echo "Function Declaration: Empty Functions with Input"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/declarations/functions/empty_functions_with_input.ms
+printf "\n"
+echo "*********************************************************"
+echo "Expressions: Arithmetic"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/expressions/arithmetic/function_calls.ms

@@ -7,6 +7,7 @@ Hello World Example
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
@@ -27,6 +28,7 @@ Useless Example
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 const double N = -100;
@@ -58,6 +60,7 @@ Prime Numbers Example
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 double limit, num, counter;
@@ -123,6 +126,7 @@ Empty Start
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 void main() {
@@ -135,6 +139,7 @@ Constant Declaration: Scalars
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 const double n = -100;
@@ -155,6 +160,7 @@ Variable Declaration: Scalars
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 double n = -100;
@@ -186,6 +192,7 @@ Constant Declaration: Arrays
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 double n = -100;
@@ -217,6 +224,7 @@ Function Declaration: Empty Functions
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 void noReturn() {
@@ -247,6 +255,7 @@ Function Declaration: Empty Functions with Input
 
 #include "mslib.h"
 #include <math.h>
+#include <string.h>
 
 
 void noReturn(double a) {
@@ -269,4 +278,30 @@ void returnVoid(char** stringArray) {
 
 void main() {
 
+}
+
+*********************************************************
+Expressions: Arithmetic
+*********************************************************
+
+#include "mslib.h"
+#include <math.h>
+#include <string.h>
+
+
+double result1() {
+	double alpha, beta;
+
+	alpha = 2+3-4*(4-5)/7;
+	beta = 1+2+3-4*(4-5)/7;
+	return pow((((-alpha)+beta)*2), 2);
+}
+
+double result2(double alpha) {
+
+	return alpha+(-4);
+}
+
+void main() {
+	writeNumber(result2(result1()));
 }

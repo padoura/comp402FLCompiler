@@ -57,4 +57,5 @@ int yyerror_count = 0;
 const char *c_prologue =
 		"#include \"mslib.h\"\n"
 		"#include <math.h>\n"
+		"#include <string.h>\n"
 		"\n";
