@@ -9,7 +9,7 @@ Hello World Example
 #include <math.h>
 
 
-const char* message = "Hello world!-+*/:_$#@&~^(),.n";
+const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
 
 
 void main() {
@@ -100,7 +100,7 @@ void main() {
 	}
 	num = num+1;
 	}
-	writeString("n");
+	writeString("\n");
 	writeNumber(counter);
 }
 
@@ -161,9 +161,9 @@ double n = -100;
 
 double a, b = 2e+0;
 
-char* str1 = ""test"";
+char* str1 = "\"test\"";
 
-char* str1 = ""test"n", str10;
+char* str1 = "\"test\"\n", str10;
 
 char* str2, str3, str4;
 
@@ -192,9 +192,9 @@ double n = -100;
 
 double a[2], b = 2e+0;
 
-char* str1 = ""test"";
+char* str1 = "\"test\"";
 
-char* str11 = ""test"n", str10[10];
+char* str11 = "\"test\"\n", str10[10];
 
 char* str2[2], str3[3], str4[4];
 
@@ -336,7 +336,7 @@ void main() {
 	if((counter==0))
 		continue;
 	else writeNumber(counter);
-	writeString("n");
+	writeString("\n");
 	}
 }
 
@@ -380,6 +380,7 @@ void main() {
 	else {
 	writeString("aNotEqualB is false.");
 	}
+	writeString("\n");
 }
 
 *********************************************************
@@ -413,5 +414,34 @@ void main() {
 		{
 	writeNumber(first/second);
 	}
-	else writeString("Error! operator is not correct");
+	else writeString("Error! Invalid input.");
+	writeString("\n");
+}
+
+*********************************************************
+Factorial Example
+*********************************************************
+
+#include "mslib.h"
+#include <math.h>
+
+
+void main() {
+	double n, i, fact;
+
+	writeString("Enter an integer: ");
+	n = readNumber();
+	if((n<0))
+		writeString("Error! Factorial of a negative number does not exist.");
+	else {
+	for(i = 1;(i<=n);i = i+1){
+	fact = fact*i;
+	}
+	writeString("Factorial of ");
+	writeNumber(n);
+	writeString(" is ");
+	writeNumber(fact);
+	}
+	writeString("\n");
+	return;
 }

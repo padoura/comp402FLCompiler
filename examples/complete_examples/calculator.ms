@@ -21,5 +21,7 @@ function start(): void {
         writeNumber(first / second);
     };
     else
-        writeString("Error! operator is not correct");
+        writeString("Error! Invalid input.");
+
+    writeString("\n");
 }

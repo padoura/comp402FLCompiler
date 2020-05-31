@@ -28,4 +28,5 @@ function start(): void {
     else{
         writeString("aNotEqualB is false.");
     };
+    writeString("\n");
 }
