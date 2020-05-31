@@ -9,7 +9,7 @@ Hello World Example
 #include <math.h>
 
 
-const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
+const char* message = "Hello world!-+*/:_$#@&~^(),.n";
 
 
 void main() {
@@ -100,7 +100,7 @@ void main() {
 	};
 	num = num+1;
 	};
-	writeString("\n");
+	writeString("n");
 	writeNumber(counter);
 }
 
@@ -161,9 +161,9 @@ double n = -100;
 
 double a, b = 2e+0;
 
-char* str1 = "\"test\"";
+char* str1 = ""test"";
 
-char* str1 = "\"test\"\n", str10;
+char* str1 = ""test"n", str10;
 
 char* str2, str3, str4;
 
@@ -192,9 +192,9 @@ double n = -100;
 
 double a[2], b = 2e+0;
 
-char* str1 = "\"test\"";
+char* str1 = ""test"";
 
-char* str11 = "\"test\"\n", str10[10];
+char* str11 = ""test"n", str10[10];
 
 char* str2[2], str3[3], str4[4];
 
@@ -336,7 +336,7 @@ void main() {
 	if((counter==0))
 		continue;
 	else writeNumber(counter);
-	writeString("\n");
+	writeString("n");
 	};
 }
 
@@ -370,14 +370,14 @@ void main() {
 	};
 	aEqualB = (a==b);
 	if(((1 && aEqualB) || !(1)))
-		writeString("aEqualB is  is false.");
+		writeString("aEqualB is true.");
 	else {
-	writeString("aEqualB is  is false.");
+	writeString("aEqualB is false.");
 	};
 	aNotEqualB = (1 && (a!=b));
 	if(((1 && aNotEqualB) || !(1)))
-		writeString("aNotEqB is  is false.");
+		writeString("aNotEqualB is true.");
 	else {
-	writeString("aNotEqB is  is false.");
+	writeString("aNotEqualB is false.");
 	};
 }

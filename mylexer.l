@@ -11,7 +11,6 @@
   int initSize = 100;
   int strLen;
   char *buf;
-  char *s;
   void realloc_buf();
 
 %}
@@ -31,30 +30,30 @@ COMMON_CHAR ([ a-zA-Z\-\+\*/:_$!#@&~\^\(\),\.])|{DIGIT}
 
 %%
 
-"\""                            { BEGIN(str_dquote); realloc_buf(); s = buf; *s++ = '"'; strLen++; }
-<str_dquote>"\\n"               { *s++ = '\\'; *s++ = 'n'; strLen++; realloc_buf(); } /* eats newline */
-<str_dquote>"\\\""              { *s++ = '\\'; *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
-<str_dquote>"\\\'"              { *s++ = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
-<str_dquote>"\\t"               { *s++ = '\\'; *s++ = 't'; strLen++; realloc_buf(); } /* eats tab */
-<str_dquote>"\\r"               { *s++ = '\\'; *s++ = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
-<str_dquote>"\\\\"              { *s++ = '\\'; *s++ = '\\'; strLen++; realloc_buf(); }  /* eats escaped backslash */
-<str_dquote>{COMMON_CHAR}       { *s++ = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
+"\""                            { BEGIN(str_dquote); strLen=0; realloc_buf(); *(buf+strLen) = '"'; strLen++; }
+<str_dquote>"\\n"               { *(buf+strLen) = '\\'; *(buf+strLen) = 'n'; strLen++; realloc_buf(); } /* eats newline */
+<str_dquote>"\\\""              { *(buf+strLen) = '\\'; *(buf+strLen) = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
+<str_dquote>"\\\'"              { *(buf+strLen) = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
+<str_dquote>"\\t"               { *(buf+strLen) = '\\'; *(buf+strLen) = 't'; strLen++; realloc_buf(); } /* eats tab */
+<str_dquote>"\\r"               { *(buf+strLen) = '\\'; *(buf+strLen) = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
+<str_dquote>"\\\\"              { *(buf+strLen) = '\\'; *(buf+strLen) = '\\'; strLen++; realloc_buf(); }  /* eats escaped backslash */
+<str_dquote>{COMMON_CHAR}       { *(buf+strLen) = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
 <str_dquote>"'"                 { printf("\nLexical error: Unescaped single quote in line %d\n\n", lineNum); return EOF; }
 <str_dquote>"\\"                { printf("\nLexical error: Unescaped backslash in line %d\n\n", lineNum); return EOF; }
-<str_dquote>"\""                { *s++ = '"'; strLen++; *s = 0; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
+<str_dquote>"\""                { *(buf+strLen) = '"'; strLen++; realloc_buf(); *(buf+strLen) = '\0'; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
 <str_dquote>.                   { printf("\nLexical error: Unexpected character in line %d\n\n", lineNum); return EOF; }
 
-"\'"                            { BEGIN(str_squote); realloc_buf(); s = buf; *s++ = '"'; strLen++; }
-<str_squote>"\\n"               { *s++ = '\\'; *s++ = 'n'; strLen++; realloc_buf(); } /* eats newline */
-<str_squote>"\\\""              { *s++ = '\\'; *s++ = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
-<str_squote>"\\\'"              { *s++ = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
-<str_squote>"\\t"               { *s++ = '\\'; *s++ = 't'; strLen++; realloc_buf(); } /* eats tab */
-<str_squote>"\\r"               { *s++ = '\\'; *s++ = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
-<str_squote>"\\\\"              { *s++ = '\\'; *s++ = '\\'; strLen++; realloc_buf(); }  /* eats escaped backslash */
-<str_squote>{COMMON_CHAR}       { *s++ = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
+"\'"                            { BEGIN(str_squote); strLen=0; realloc_buf(); *(buf+strLen) = '"'; strLen++; }
+<str_squote>"\\n"               { *(buf+strLen) = '\\'; *(buf+strLen) = 'n'; strLen++; realloc_buf(); } /* eats newline */
+<str_squote>"\\\""              { *(buf+strLen) = '\\'; *(buf+strLen) = '"'; strLen++; realloc_buf(); }  /* eats escaped double quote */
+<str_squote>"\\\'"              { *(buf+strLen) = '\''; strLen++; realloc_buf(); }  /* eats escaped single quote */
+<str_squote>"\\t"               { *(buf+strLen) = '\\'; *(buf+strLen) = 't'; strLen++; realloc_buf(); } /* eats tab */
+<str_squote>"\\r"               { *(buf+strLen) = '\\'; *(buf+strLen) = 'r'; strLen++; realloc_buf(); } /* eats carriage return */
+<str_squote>"\\\\"              { *(buf+strLen) = '\\'; *(buf+strLen) = '\\'; strLen++; realloc_buf(); }  /* eats escaped backslash */
+<str_squote>{COMMON_CHAR}       { *(buf+strLen) = *yytext; strLen++; realloc_buf(); }        /* eats defined common characters */
 <str_squote>"\""                { printf("\nLexical error: Unescaped double quote in line %d\n\n", lineNum); return EOF; }
 <str_squote>"\\"                { printf("\nLexical error: Unescaped backslash in line %d\n\n", lineNum); return EOF; }
-<str_squote>"'"                 { *s++ = '"'; strLen++; *s = 0; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
+<str_squote>"'"                 { *(buf+strLen) = '"'; strLen++; realloc_buf(); *(buf+strLen) = '\0'; yylval.str = strdup(buf); BEGIN(INITIAL); return TK_STR; }
 <str_squote>.                   { printf("\nLexical error: Unexpected character in line %d\n\n", lineNum); return EOF; }
 
 "/*"					          BEGIN(comment);
@@ -127,6 +126,7 @@ return        return KW_RET;
 
 void realloc_buf(){
   if (strLen==0){
+    initSize = 100;
     buf = realloc(NULL, sizeof(char)*initSize);
   }else if(strLen==initSize){
     buf = realloc(buf, sizeof(char)*(initSize+=16));
