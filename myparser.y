@@ -310,6 +310,8 @@ stmt:
 | stmt_for { $$ = $1; }
 | stmt_while { $$ = $1; }
 | stmt_fun_call ';' { $$ = template("%s;", $1); }
+| KW_RET ';' { $$ = "\n\treturn;"; }
+| KW_RET expr ';' { $$ = template("\n\treturn %s;", $2); }
 ;
 
 in_loop_stmt:
@@ -360,8 +362,6 @@ stmt_for:
 stmt_while:
   KW_WHILE '(' expr ')' loop_block_stmt { $$ = template("while(%s)%s", $3, $5); }
 ;
-
-// TODO KW_RET
 
 stmt_fun_call:
   TK_IDENT '(' input_fun_call_exprs ')' { $$ = template("%s(%s)", $1, $3); }

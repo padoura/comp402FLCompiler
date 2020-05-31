@@ -5,9 +5,11 @@ function start(): void {
             break;
         else
             counter = counter + 1;
+            continue;
             writeString("still counting...");
     };
     writeNumber(counter);
     return;
     counter = counter + 1;
+    writeNumber(counter);
 }
