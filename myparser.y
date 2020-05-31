@@ -305,7 +305,7 @@ function_input:
 // **************** Statements ****************
 
 stmt:
-  stmt_assignment { $$ = $1; }
+  stmt_assignment ';' { $$ = template("%s;", $1); }
 | stmt_if { $$ = $1; }
 | stmt_for { $$ = $1; }
 | stmt_while { $$ = $1; }
@@ -342,7 +342,7 @@ loop_block_stmt:
 ;
 
 stmt_assignment:
-  TK_IDENT '=' expr ';' { $$ = template("%s = %s;", $1, $3); }
+  TK_IDENT '=' expr { $$ = template("%s = %s", $1, $3); }
 ;
 
 stmt_if:
@@ -356,7 +356,7 @@ in_loop_stmt_if:
 ;
 
 stmt_for:
-  KW_FOR '(' stmt ';' expr ';' stmt ')' loop_block_stmt { $$ = template("for(%s;%s;%s)%s", $3, $5, $7, $9); }
+  KW_FOR '(' stmt_assignment ';' expr ';' stmt_assignment ')' loop_block_stmt { $$ = template("for(%s;%s;%s)%s", $3, $5, $7, $9); }
 ;
 
 stmt_while:

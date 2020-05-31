@@ -84,3 +84,9 @@ echo "Expressions: While with break"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/expressions/loops/while_if_break.ms
+printf "\n"
+echo "*********************************************************"
+echo "Expressions: For with continue"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/expressions/loops/for_if_continue.ms

@@ -1,5 +1,5 @@
 myparser.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 59 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 57 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -7,7 +7,6 @@ Hello World Example
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
@@ -28,7 +27,6 @@ Useless Example
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 const double N = -100;
@@ -60,7 +58,6 @@ Prime Numbers Example
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 double limit, num, counter;
@@ -126,7 +123,6 @@ Empty Start
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 void main() {
@@ -139,7 +135,6 @@ Constant Declaration: Scalars
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 const double n = -100;
@@ -160,7 +155,6 @@ Variable Declaration: Scalars
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 double n = -100;
@@ -192,7 +186,6 @@ Constant Declaration: Arrays
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 double n = -100;
@@ -224,7 +217,6 @@ Function Declaration: Empty Functions
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 void noReturn() {
@@ -255,7 +247,6 @@ Function Declaration: Empty Functions with Input
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 void noReturn(double a) {
@@ -286,7 +277,6 @@ Expressions: Arithmetic
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 double result1() {
@@ -312,7 +302,6 @@ Expressions: While with break
 
 #include "mslib.h"
 #include <math.h>
-#include <string.h>
 
 
 void main() {
@@ -330,4 +319,23 @@ void main() {
 	return;
 	counter = counter+1;
 	writeNumber(counter);
+}
+
+*********************************************************
+Expressions: For with continue
+*********************************************************
+
+#include "mslib.h"
+#include <math.h>
+
+
+void main() {
+	double counter;
+
+	for(counter = 0;(counter<10);counter = counter+1){
+	if((counter==0))
+		continue;
+	else writeNumber(counter);
+	writeString("\n");
+	};
 }
