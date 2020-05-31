@@ -81,9 +81,9 @@ int prime(double n) {
 	while((isPrime && ((i<n/2)))){
 	isPrime = (n%s!=0);
 	i = i+2;
-	};
+	}
 	result = isPrime;
-	};
+	}
 	return result;
 }
 
@@ -97,9 +97,9 @@ void main() {
 	counter = counter+1;
 	writeNumber(num);
 	writeString(" ");
-	};
+	}
 	num = num+1;
-	};
+	}
 	writeString("n");
 	writeNumber(counter);
 }
@@ -313,7 +313,7 @@ void main() {
 	else counter = counter+1;
 	continue;
 	writeString("still counting...");
-	};
+	}
 	writeNumber(counter);
 	
 	return;
@@ -337,7 +337,7 @@ void main() {
 		continue;
 	else writeNumber(counter);
 	writeString("n");
-	};
+	}
 }
 
 *********************************************************
@@ -361,23 +361,57 @@ void main() {
 		writeString("aLessThanB is true.");
 	else {
 	writeString("aLessThanB is false.");
-	};
+	}
 	aLessEqualB = (a<=b);
 	if(((1 && aLessEqualB) || !(1)))
 		writeString("aLessEqualB is true.");
 	else {
 	writeString("aLessEqualB is false.");
-	};
+	}
 	aEqualB = (a==b);
 	if(((1 && aEqualB) || !(1)))
 		writeString("aEqualB is true.");
 	else {
 	writeString("aEqualB is false.");
-	};
+	}
 	aNotEqualB = (1 && (a!=b));
 	if(((1 && aNotEqualB) || !(1)))
 		writeString("aNotEqualB is true.");
 	else {
 	writeString("aNotEqualB is false.");
-	};
+	}
+}
+
+*********************************************************
+Simple Calculator Example
+*********************************************************
+
+#include "mslib.h"
+#include <math.h>
+
+
+void main() {
+	double first, second, operator;
+
+	writeString("Enter a digit for operator (1:addition, 2:substraction, 3:multiplication, 4: division): ");
+	operator = readNumber();
+	writeString("Enter first operand: ");
+	first = readNumber();
+	writeString("Enter second operand: ");
+	second = readNumber();
+	if((operator==1))
+		{
+	writeNumber(first+second);
+	}
+	else if((operator==2))
+		{
+	writeNumber(first-second);
+	}
+	else if((operator==3))
+		writeNumber(first*second);
+	else if((operator==4))
+		{
+	writeNumber(first/second);
+	}
+	else writeString("Error! operator is not correct");
 }

@@ -327,7 +327,7 @@ in_block_stmts:
 ;
 
 block_stmt:
-  '{' in_block_stmts '}' ';' { $$ = template("{\n%s\n\t};", $2); }
+  '{' in_block_stmts '}' ';' { $$ = template("{\n%s\n\t}", $2); }
 | stmt { $$ = template("%s", $1); }
 ;
 
@@ -337,7 +337,7 @@ in_loop_block_stmts:
 ;
 
 loop_block_stmt:
-  '{' in_loop_block_stmts '}' ';' { $$ = template("{\n%s\n\t};", $2); }
+  '{' in_loop_block_stmts '}' ';' { $$ = template("{\n%s\n\t}", $2); }
 | in_loop_stmt { $$ = template("%s", $1); }
 ;
 

@@ -96,3 +96,9 @@ echo "Expressions: Logical Operators"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/expressions/logical/all_operators.ms
+printf "\n"
+echo "*********************************************************"
+echo "Simple Calculator Example"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/complete_examples/calculator.ms
