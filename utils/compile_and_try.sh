@@ -102,3 +102,9 @@ echo "Simple Calculator Example"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/complete_examples/calculator.ms
+printf "\n"
+echo "*********************************************************"
+echo "Factorial Example"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/complete_examples/factorial.ms
