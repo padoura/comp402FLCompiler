@@ -76,7 +76,9 @@
 %type <str> function_input
 
 %type <str> stmt
+%type <str> in_loop_stmt
 %type <str> block_stmt
+%type <str> loop_block_stmt
 %type <str> stmt_assignment
 %type <str> stmt_for
 %type <str> stmt_while
@@ -84,6 +86,8 @@
 %type <str> stmt_fun_call
 %type <str> input_fun_call_exprs
 %type <str> in_block_stmts
+%type <str> in_loop_block_stmts
+%type <str> in_loop_stmt_if
 
 %type <str> expr
 
@@ -308,6 +312,13 @@ stmt:
 | stmt_fun_call ';' { $$ = template("%s;", $1); }
 ;
 
+in_loop_stmt:
+  stmt { $$ = $1; }
+| in_loop_stmt_if { $$ = $1; }
+| KW_BREAK ';' { $$ = "break;"; }
+| KW_CONTINUE ';' { $$ = "continue;"; }
+;
+
 in_block_stmts:
   in_block_stmts stmt { $$ = template("%s\n\t%s", $1, $2); }
 | stmt { $$ = template("\t%s", $1); }
@@ -316,6 +327,16 @@ in_block_stmts:
 block_stmt:
   '{' in_block_stmts '}' ';' { $$ = template("{\n%s\n\t};", $2); }
 | stmt { $$ = template("%s", $1); }
+;
+
+in_loop_block_stmts:
+  in_loop_block_stmts in_loop_stmt { $$ = template("%s\n\t%s", $1, $2); }
+| in_loop_stmt { $$ = template("\t%s", $1); }
+;
+
+loop_block_stmt:
+  '{' in_loop_block_stmts '}' ';' { $$ = template("{\n%s\n\t};", $2); }
+| in_loop_stmt { $$ = template("%s", $1); }
 ;
 
 stmt_assignment:
@@ -327,16 +348,19 @@ stmt_if:
 | KW_IF '(' expr ')' block_stmt { $$ = template("if(%s)\n\t\t%s", $3, $5); }
 ;
 
+in_loop_stmt_if:
+  KW_IF '(' expr ')' loop_block_stmt KW_ELSE loop_block_stmt { $$ = template("if(%s)\n\t\t%s\n\telse %s", $3, $5, $7); }
+| KW_IF '(' expr ')' loop_block_stmt { $$ = template("if(%s)\n\t\t%s", $3, $5); }
+;
+
 stmt_for:
-  KW_FOR '(' stmt ';' expr ';' stmt ')' block_stmt { $$ = template("for(%s;%s;%s)%s", $3, $5, $7, $9); }
+  KW_FOR '(' stmt ';' expr ';' stmt ')' loop_block_stmt { $$ = template("for(%s;%s;%s)%s", $3, $5, $7, $9); }
 ;
 
 stmt_while:
-  KW_WHILE '(' expr ')' block_stmt { $$ = template("while(%s)%s", $3, $5); }
+  KW_WHILE '(' expr ')' loop_block_stmt { $$ = template("while(%s)%s", $3, $5); }
 ;
 
-// TODO KW_BREAK
-// TODO KW_CONTINUE
 // TODO KW_RET
 
 stmt_fun_call:

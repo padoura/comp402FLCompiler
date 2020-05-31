@@ -78,3 +78,9 @@ echo "Expressions: Arithmetic"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/expressions/arithmetic/function_calls.ms
+printf "\n"
+echo "*********************************************************"
+echo "Expressions: While with break"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/expressions/loops/while_if_break.ms
