@@ -1,1 +1,6 @@
 results.txt
+/lex.yy.c
+/mycomp
+/myparser.output
+/myparser.tab.c
+/myparser.tab.h
