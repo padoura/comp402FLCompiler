@@ -339,3 +339,45 @@ void main() {
 	writeString("\n");
 	};
 }
+
+*********************************************************
+Expressions: Logical Operators
+*********************************************************
+
+#include "mslib.h"
+#include <math.h>
+
+
+double a, b;
+
+int aLessThanB;
+
+
+void main() {
+	a = readNumber();
+	b = readNumber();
+	aLessThanB = (a<b);
+	if((!(1) || (1 && aLessThanB)))
+		writeString("aLessThanB is true.");
+	else {
+	writeString("aLessThanB is false.");
+	};
+	aLessEqualB = (a<=b);
+	if(((1 && aLessEqualB) || !(1)))
+		writeString("aLessEqualB is true.");
+	else {
+	writeString("aLessEqualB is false.");
+	};
+	aEqualB = (a==b);
+	if(((1 && aEqualB) || !(1)))
+		writeString("aEqualB is  is false.");
+	else {
+	writeString("aEqualB is  is false.");
+	};
+	aNotEqualB = (1 && (a!=b));
+	if(((1 && aNotEqualB) || !(1)))
+		writeString("aNotEqB is  is false.");
+	else {
+	writeString("aNotEqB is  is false.");
+	};
+}

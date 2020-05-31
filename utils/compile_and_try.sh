@@ -90,3 +90,9 @@ echo "Expressions: For with continue"
 echo "*********************************************************"
 printf "\n"
 ./mycomp < examples/expressions/loops/for_if_continue.ms
+printf "\n"
+echo "*********************************************************"
+echo "Expressions: Logical Operators"
+echo "*********************************************************"
+printf "\n"
+./mycomp < examples/expressions/logical/all_operators.ms
