@@ -1,5 +1,5 @@
-myparser.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 57 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 6 shift/reduce conflicts [-Wconflicts-sr]
+myparser.y: warning: 55 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -79,8 +79,8 @@ int prime(double n) {
 	i = 3;
 	isPrime = 1;
 	while((isPrime && ((i<n/2)))){
-	isPrime = (n%s!=0);
-	i = i+2;
+		isPrime = (n%s!=0);
+		i = i+2;
 	}
 	result = isPrime;
 	}
@@ -94,11 +94,11 @@ void main() {
 	while((num<=limit)){
 	if(prime(num))
 		{
-	counter = counter+1;
-	writeNumber(num);
-	writeString(" ");
+		counter = counter+1;
+		writeNumber(num);
+		writeString(" ");
 	}
-	num = num+1;
+		num = num+1;
 	}
 	writeString("\n");
 	writeNumber(counter);
@@ -228,12 +228,12 @@ void noReturnVoid() {
 }
 
 void withReturn() {
-
+	
 	return;
 }
 
 void returnVoid() {
-
+	
 	return;
 }
 
@@ -258,12 +258,12 @@ void noReturnVoid(double beta, int isSomething, char* some32String) {
 }
 
 void withReturn(int i_0, int i_1, int i_2, double* i_3) {
-
+	
 	return;
 }
 
 void returnVoid(char** stringArray) {
-
+	
 	return;
 }
 
@@ -310,9 +310,9 @@ void main() {
 	while(1){
 	if((counter==10))
 		break;
-	else counter = counter+1;
+	else 	counter = counter+1;
 	continue;
-	writeString("still counting...");
+		writeString("still counting...");
 	}
 	writeNumber(counter);
 	
@@ -335,8 +335,8 @@ void main() {
 	for(counter = 0;(counter<10);counter = counter+1){
 	if((counter==0))
 		continue;
-	else writeNumber(counter);
-	writeString("\n");
+	else 	writeNumber(counter);
+		writeString("\n");
 	}
 }
 
@@ -435,7 +435,7 @@ void main() {
 		writeString("Error! Factorial of a negative number does not exist.");
 	else {
 	for(i = 1;(i<=n);i = i+1){
-	fact = fact*i;
+		fact = fact*i;
 	}
 	writeString("Factorial of ");
 	writeNumber(n);
@@ -443,5 +443,6 @@ void main() {
 	writeNumber(fact);
 	}
 	writeString("\n");
+	
 	return;
 }
