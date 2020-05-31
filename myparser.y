@@ -94,8 +94,8 @@
 %type <str> function_decl
 %type <str> start_decl
 
-// %precedence ')'
-// %precedence KW_ELSE
+%precedence ')'
+%precedence KW_ELSE
 
 
 
@@ -269,8 +269,7 @@ in_void_fun_body:
 ;
 
 in_void_fun_stmts:
-  KW_RET ';' { $$ = "\n\treturn;"; }
-| in_block_stmts { $$ = $1; }
+  in_block_stmts { $$ = $1; }
 | in_block_stmts KW_RET ';' { $$ = template("%s\n\treturn;", $1); }
 | %empty { $$ = ""; }
 ;
