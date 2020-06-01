@@ -1,5 +1,4 @@
-myparser.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 56 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 49 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -36,6 +35,7 @@ double a, b;
 
 double cube(double i) {
 
+	
 	return i*i*i;
 }
 
@@ -45,6 +45,7 @@ double add(double n, double k) {
 
 	j = (N-n)+cube(k);
 	writeNumber(j);
+	
 	return j;
 }
 
@@ -90,6 +91,7 @@ int prime(double n) {
 	}
 	result = isPrime;
 	}
+	
 	return result;
 }
 
@@ -298,11 +300,13 @@ double result1() {
 
 	alpha = 2+3-4*(4-5)/7;
 	beta = 1+2+3-4*(4-5)/7;
+	
 	return pow((((-alpha)+beta)*2), 2);
 }
 
 double result2(double alpha) {
 
+	
 	return alpha+(-4);
 }
 

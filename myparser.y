@@ -57,9 +57,6 @@
 %type <str> variable_instance
 
 %type <str> in_fun_body
-%type <str> in_void_fun_body
-%type <str> in_fun_stmts
-%type <str> in_void_fun_stmts
 %type <str> function_input
 
 %type <str> stmt
@@ -110,7 +107,7 @@ input:
 ;
 
 start_decl:
-  KW_FUNCTION KW_START '(' ')' ':' KW_VOID '{' in_void_fun_body '}' { $$ = template("void main() {\n%s\n}", $8); }
+  KW_FUNCTION KW_START '(' ')' ':' KW_VOID '{' in_fun_body '}' { $$ = template("void main() {\n%s\n}", $8); }
 ;
 
 // **************** Constant declarations ****************
@@ -157,35 +154,19 @@ function_decl:
   KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_NUMBER '{' in_fun_body '}' { $$ = template("double %s(%s) {\n%s\n}", $2, $4, $9); }
 | KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_STRING '{' in_fun_body '}' { $$ = template("char* %s(%s) {\n%s\n}", $2, $4, $9); }
 | KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_BOOL '{' in_fun_body '}' { $$ = template("int %s(%s) {\n%s\n}", $2, $4, $9); }
-| KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_VOID '{' in_void_fun_body '}' { $$ = template("void %s(%s) {\n%s\n}", $2, $4, $9); }
-| KW_FUNCTION TK_IDENT '(' function_input ')' '{' in_void_fun_body '}' { $$ = template("void %s(%s) {\n%s\n}", $2, $4, $7); }
+| KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_VOID '{' in_fun_body '}' { $$ = template("void %s(%s) {\n%s\n}", $2, $4, $9); }
+| KW_FUNCTION TK_IDENT '(' function_input ')' '{' in_fun_body '}' { $$ = template("void %s(%s) {\n%s\n}", $2, $4, $7); }
 | function_decl KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_NUMBER '{' in_fun_body '}' { $$ = template("%s\n\ndouble %s(%s) {\n%s\n}", $1, $3, $5, $10); }
 | function_decl KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_STRING '{' in_fun_body '}' { $$ = template("%s\n\nchar* %s(%s) {\n%s\n}", $1, $3, $5, $10); }
 | function_decl KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_BOOL '{' in_fun_body '}' { $$ = template("%s\n\nint %s(%s) {\n%s\n}", $1, $3, $5, $10); }
-| function_decl KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_VOID '{' in_void_fun_body '}' { $$ = template("%s\n\nvoid %s(%s) {\n%s\n}", $1, $3, $5, $10); }
-| function_decl KW_FUNCTION TK_IDENT '(' function_input ')' '{' in_void_fun_body '}' { $$ = template("%s\n\nvoid %s(%s) {\n%s\n}", $1, $3, $5, $8); }
-;
-
-in_void_fun_body:
-  constant_decl in_void_fun_body { $$ = template("\t%s\n%s", $1, $2); }
-| variable_decl in_void_fun_body { $$ = template("\t%s\n%s", $1, $2); }
-| in_void_fun_stmts { $$ = $1; }
-;
-
-in_void_fun_stmts:
-  in_block_stmts { $$ = $1; }
-| %empty { $$ = ""; }
+| function_decl KW_FUNCTION TK_IDENT '(' function_input ')' ':' KW_VOID '{' in_fun_body '}' { $$ = template("%s\n\nvoid %s(%s) {\n%s\n}", $1, $3, $5, $10); }
+| function_decl KW_FUNCTION TK_IDENT '(' function_input ')' '{' in_fun_body '}' { $$ = template("%s\n\nvoid %s(%s) {\n%s\n}", $1, $3, $5, $8); }
 ;
 
 in_fun_body:
   constant_decl in_fun_body { $$ = template("\t%s\n%s", $1, $2); }
 | variable_decl in_fun_body { $$ = template("\t%s\n%s", $1, $2); }
-| in_fun_stmts { $$ = $1; }
-;
-
-in_fun_stmts:
-  KW_RET expr ';' { $$ = template("\n\treturn %s;", $2); }
-| in_block_stmts KW_RET expr ';' { $$ = template("%s\n\treturn %s;", $1, $3); }
+| in_block_stmts { $$ = $1; }
 ;
 
 function_input:
