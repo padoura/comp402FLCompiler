@@ -54,16 +54,7 @@
 %type <str> constant
 
 %type <str> variable_decl
-%type <str> uninitialized_variables
-%type <str> number_instance
-%type <str> string_instance
-%type <str> boolean_instance
-%type <str> uninitialized_boolean_variables
-%type <str> uninitialized_string_variables
-%type <str> uninitialized_number_variables
-%type <str> boolean_decl_ending_part
-%type <str> string_decl_ending_part
-%type <str> number_decl_ending_part
+%type <str> variable_instance
 
 %type <str> in_fun_body
 %type <str> in_void_fun_body
@@ -143,82 +134,21 @@ constant:
 // **************** Variable declarations ****************
 
 variable_decl:
-  KW_VAR number_instance ';' { $$ = template("double %s;\n", $2); }
-| KW_VAR string_instance  ';' { $$ = template("char* %s;\n", $2); }
-| KW_VAR boolean_instance ';' { $$ = template("int %s;\n", $2); }  
-| variable_decl KW_VAR number_instance ';' { $$ = template("%s\ndouble %s;\n", $1, $3); }
-| variable_decl KW_VAR string_instance ';' { $$ = template("%s\nchar* %s;\n", $1, $3); }
-| variable_decl KW_VAR boolean_instance ';' { $$ = template("%s\nint %s;\n", $1, $3); }
-| uninitialized_variables { $$ = template("%s\n", $1); }
-| variable_decl uninitialized_variables { $$ = template("%s\n%s\n", $1, $2); }
+  KW_VAR variable_instance ':' KW_NUMBER ';' { $$ = template("double %s;\n", $2); }
+| KW_VAR variable_instance ':' KW_STRING ';' { $$ = template("char* %s;\n", $2); }
+| KW_VAR variable_instance ':' KW_BOOL ';' { $$ = template("int %s;\n", $2); }  
+| variable_decl KW_VAR variable_instance ':' KW_NUMBER ';' { $$ = template("%s\ndouble %s;\n", $1, $3); }
+| variable_decl KW_VAR variable_instance ':' KW_STRING ';' { $$ = template("%s\nchar* %s;\n", $1, $3); }
+| variable_decl KW_VAR variable_instance ':' KW_BOOL ';' { $$ = template("%s\nint %s;\n", $1, $3); }
 ;
 
-number_instance:
-  stmt_assignment ':' KW_NUMBER { $$ = template("%s", $1); }
-| stmt_assignment ',' number_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT ',' number_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT ':' KW_NUMBER { $$ = $1; }
-| TK_IDENT '[' TK_POSINT ']' ',' number_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
-| TK_IDENT '[' TK_POSINT ']' ':' KW_NUMBER { $$ = template("%s[%s]", $1, $3); }
-;
-
-string_instance:
-  TK_IDENT '=' TK_STR ':' KW_STRING { $$ = template("%s = %s", $1, $3); }
-| TK_IDENT '=' TK_STR ',' string_instance { $$ = template("%s = %s, %s", $1, $3, $5); }
-| TK_IDENT ',' string_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT ':' KW_STRING { $$ = $1; }
-| TK_IDENT '[' TK_POSINT ']' ',' string_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
-| TK_IDENT '[' TK_POSINT ']' ':' KW_STRING { $$ = template("%s[%s]", $1, $3); }
-;
-
-boolean_instance:
-  stmt_assignment ':' KW_BOOL { $$ = template("%s", $1); }
-| stmt_assignment ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT ':' KW_BOOL { $$ = $1; }
-| TK_IDENT '[' TK_POSINT ']' ',' boolean_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
-| TK_IDENT '[' TK_POSINT ']' ':' KW_BOOL { $$ = template("%s[%s]", $1, $3); }
-;
-
-// Covers case with >1 uninitialized variables and 0 initialized, should stay at the bottom of this part
-
-uninitialized_variables:
-  uninitialized_number_variables { $$ = $1; }
-| uninitialized_string_variables { $$ = $1; }
-| uninitialized_boolean_variables { $$ = $1; }
-;
-
-uninitialized_number_variables:
-  KW_VAR number_decl_ending_part { $$ = template("double %s;", $2); }
-;
-
-number_decl_ending_part:
-  TK_IDENT ':' KW_NUMBER ';'  { $$ = $1; }
-| TK_IDENT ',' number_decl_ending_part { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT '[' TK_POSINT ']' ':' KW_NUMBER ';'  { $$ = template("%s[%s]", $1, $3); }
-| TK_IDENT '[' TK_POSINT ']' ',' number_decl_ending_part { $$ = template("%s[%s], %s", $1, $3, $6); }
-;
-
-uninitialized_string_variables:
-  KW_VAR string_decl_ending_part { $$ = template("char* %s;", $2); }
-;
-
-string_decl_ending_part:
-  TK_IDENT ':' KW_STRING ';'  { $$ = $1; }
-| TK_IDENT ',' string_decl_ending_part { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT '[' TK_POSINT ']' ':' KW_STRING ';'  { $$ = template("%s[%s]", $1, $3); }
-| TK_IDENT '[' TK_POSINT ']' ',' string_decl_ending_part { $$ = template("%s[%s], %s", $1, $3, $6); }
-;
-
-uninitialized_boolean_variables:
-  KW_VAR boolean_decl_ending_part { $$ = template("int %s;", $2); }
-;
-
-boolean_decl_ending_part:
-  TK_IDENT ':' KW_BOOL ';'  { $$ = $1; }
-| TK_IDENT ',' boolean_decl_ending_part { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT '[' TK_POSINT ']' ':' KW_BOOL ';'  { $$ = template("%s[%s]", $1, $3); }
-| TK_IDENT '[' TK_POSINT ']' ',' boolean_decl_ending_part { $$ = template("%s[%s], %s", $1, $3, $6); }
+variable_instance:
+  constant { $$ = template("%s", $1); }
+| constant ',' variable_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT ',' variable_instance { $$ = template("%s, %s", $1, $3); }
+| TK_IDENT { $$ = $1; }
+| TK_IDENT '[' TK_POSINT ']' ',' variable_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
+| TK_IDENT '[' TK_POSINT ']' { $$ = template("%s[%s]", $1, $3); }
 ;
 
 // **************** Function declarations ****************

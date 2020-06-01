@@ -1,5 +1,5 @@
-myparser.y: warning: 16 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 62 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
+myparser.y: warning: 56 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
