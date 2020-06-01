@@ -1,5 +1,5 @@
-myparser.y: warning: 6 shift/reduce conflicts [-Wconflicts-sr]
-myparser.y: warning: 55 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 16 shift/reduce conflicts [-Wconflicts-sr]
+myparser.y: warning: 62 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -13,6 +13,7 @@ const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
 
 
 void main() {
+
 	writeString(message);
 }
 
@@ -29,7 +30,7 @@ Useless Example
 #include <math.h>
 
 
-const double N = -100;
+const double N = (-100);
 
 double a, b;
 
@@ -41,12 +42,14 @@ double cube(double i) {
 double add(double n, double k) {
 	double j;
 
+
 	j = (N-n)+cube(k);
 	writeNumber(j);
 	return j;
 }
 
 void main() {
+
 	a = readNumber();
 	b = readNumber();
 	add(a, b);
@@ -67,6 +70,7 @@ int prime(double n) {
 
 	int result, isPrime;
 
+
 	if((n<0))
 		result = prime((-n));
 	else if((n<2))
@@ -76,9 +80,11 @@ int prime(double n) {
 	else if((n%s==0))
 		result = 0;
 	else {
+
 	i = 3;
 	isPrime = 1;
 	while((isPrime && ((i<n/2)))){
+
 		isPrime = (n%s!=0);
 		i = i+2;
 	}
@@ -88,15 +94,18 @@ int prime(double n) {
 }
 
 void main() {
+
 	limit = readNumber();
 	counter = 0;
 	num = 2;
 	while((num<=limit)){
-	if(prime(num))
+
+		if(prime(num))
 		{
-		counter = counter+1;
-		writeNumber(num);
-		writeString(" ");
+
+	counter = counter+1;
+	writeNumber(num);
+	writeString(" ");
 	}
 		num = num+1;
 	}
@@ -137,7 +146,7 @@ Constant Declaration: Scalars
 #include <math.h>
 
 
-const double n = -100;
+const double n = (-100);
 const double a = 1.20, b = 2e-1;
 const char* str1 = "test";
 const char* str2 = "test2", str3 = "test3";
@@ -157,7 +166,7 @@ Variable Declaration: Scalars
 #include <math.h>
 
 
-double n = -100;
+double n = (-100);
 
 double a, b = 2e+0;
 
@@ -188,7 +197,7 @@ Constant Declaration: Arrays
 #include <math.h>
 
 
-double n = -100;
+double n = (-100);
 
 double a[2], b = 2e+0;
 
@@ -228,11 +237,13 @@ void noReturnVoid() {
 }
 
 void withReturn() {
+
 	
 	return;
 }
 
 void returnVoid() {
+
 	
 	return;
 }
@@ -258,11 +269,13 @@ void noReturnVoid(double beta, int isSomething, char* some32String) {
 }
 
 void withReturn(int i_0, int i_1, int i_2, double* i_3) {
+
 	
 	return;
 }
 
 void returnVoid(char** stringArray) {
+
 	
 	return;
 }
@@ -282,6 +295,7 @@ Expressions: Arithmetic
 double result1() {
 	double alpha, beta;
 
+
 	alpha = 2+3-4*(4-5)/7;
 	beta = 1+2+3-4*(4-5)/7;
 	return pow((((-alpha)+beta)*2), 2);
@@ -293,6 +307,7 @@ double result2(double alpha) {
 }
 
 void main() {
+
 	writeNumber(result2(result1()));
 }
 
@@ -307,7 +322,9 @@ Expressions: While with break
 void main() {
 	double counter = 0;
 
+
 	while(1){
+
 	if((counter==10))
 		break;
 	else 	counter = counter+1;
@@ -332,7 +349,9 @@ Expressions: For with continue
 void main() {
 	double counter;
 
+
 	for(counter = 0;(counter<10);counter = counter+1){
+
 	if((counter==0))
 		continue;
 	else 	writeNumber(counter);
@@ -354,30 +373,35 @@ int aLessThanB;
 
 
 void main() {
+
 	a = readNumber();
 	b = readNumber();
 	aLessThanB = (a<b);
 	if((!(1) || (1 && aLessThanB)))
 		writeString("aLessThanB is true.");
 	else {
+
 	writeString("aLessThanB is false.");
 	}
 	aLessEqualB = (a<=b);
 	if(((1 && aLessEqualB) || !(1)))
 		writeString("aLessEqualB is true.");
 	else {
+
 	writeString("aLessEqualB is false.");
 	}
 	aEqualB = (a==b);
 	if(((1 && aEqualB) || !(1)))
 		writeString("aEqualB is true.");
 	else {
+
 	writeString("aEqualB is false.");
 	}
 	aNotEqualB = (1 && (a!=b));
 	if(((1 && aNotEqualB) || !(1)))
 		writeString("aNotEqualB is true.");
 	else {
+
 	writeString("aNotEqualB is false.");
 	}
 	writeString("\n");
@@ -394,6 +418,7 @@ Simple Calculator Example
 void main() {
 	double first, second, operator;
 
+
 	writeString("Enter a digit for operator (1:addition, 2:substraction, 3:multiplication, 4: division): ");
 	operator = readNumber();
 	writeString("Enter first operand: ");
@@ -402,16 +427,19 @@ void main() {
 	second = readNumber();
 	if((operator==1))
 		{
+
 	writeNumber(first+second);
 	}
 	else if((operator==2))
 		{
+
 	writeNumber(first-second);
 	}
 	else if((operator==3))
 		writeNumber(first*second);
 	else if((operator==4))
 		{
+
 	writeNumber(first/second);
 	}
 	else writeString("Error! Invalid input.");
@@ -429,12 +457,15 @@ Factorial Example
 void main() {
 	double n, i, fact;
 
+
 	writeString("Enter an integer: ");
 	n = readNumber();
 	if((n<0))
 		writeString("Error! Factorial of a negative number does not exist.");
 	else {
+
 	for(i = 1;(i<=n);i = i+1){
+
 		fact = fact*i;
 	}
 	writeString("Factorial of ");

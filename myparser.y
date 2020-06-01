@@ -50,12 +50,8 @@
 %type <str> tk_posint_or_zero
 
 %type <str> constant_decl
-%type <str> boolean_value
-%type <str> boolean_constant
-%type <str> string_constant
-%type <str> number_value
-%type <str> number_constant
 %type <str> constant_instance
+%type <str> constant
 
 %type <str> variable_decl
 %type <str> uninitialized_variables
@@ -134,36 +130,14 @@ constant_decl:
 ;
 
 constant_instance:
-  number_constant ':' KW_NUMBER ';' { $$ = template("double %s;", $1); }
-| string_constant ':' KW_STRING ';' { $$ = template("char* %s;", $1); }
-| boolean_constant ':' KW_BOOL ';' { $$ = template("int %s;", $1); }
+  constant ':' KW_NUMBER ';' { $$ = template("double %s;", $1); }
+| constant ':' KW_STRING ';' { $$ = template("char* %s;", $1); }
+| constant ':' KW_BOOL ';' { $$ = template("int %s;", $1); }
 ;
 
-number_constant:
-  TK_IDENT '=' number_value { $$ = template("%s = %s", $1, $3); }
-| number_constant ',' TK_IDENT '=' number_value { $$ = template("%s, %s = %s", $1, $3, $5); }
-;
-
-number_value:
-  tk_posint_or_zero { $$ = $1; }
-| TK_POSREAL { $$ = $1; }
-| '-' tk_posint_or_zero { $$ = template("-%s", $2); }
-| '-' TK_POSREAL { $$ = template("-%s", $2); }
-;
-
-string_constant:
-  TK_IDENT '=' TK_STR { $$ = template("%s = %s", $1, $3); }
-| string_constant ',' TK_IDENT '=' TK_STR { $$ = template("%s, %s = %s", $1, $3, $5); }
-;
-
-boolean_constant:
-  TK_IDENT '=' boolean_value { $$ = template("%s = %s", $1, $3); }
-| boolean_constant ',' TK_IDENT '=' boolean_value { $$ = template("%s, %s = %s", $1, $3, $5); }
-;
-
-boolean_value:
-  KW_TRUE { $$ = "1"; }
-| KW_FALSE { $$ = "0"; }
+constant:
+  stmt_assignment { $$ = template("%s", $1); }
+| constant ',' stmt_assignment { $$ = template("%s, %s", $1, $3); }
 ;
 
 // **************** Variable declarations ****************
@@ -180,8 +154,8 @@ variable_decl:
 ;
 
 number_instance:
-  TK_IDENT '=' number_value ':' KW_NUMBER { $$ = template("%s = %s", $1, $3); }
-| TK_IDENT '=' number_value ',' number_instance { $$ = template("%s = %s, %s", $1, $3, $5); }
+  stmt_assignment ':' KW_NUMBER { $$ = template("%s", $1); }
+| stmt_assignment ',' number_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' number_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ':' KW_NUMBER { $$ = $1; }
 | TK_IDENT '[' TK_POSINT ']' ',' number_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
@@ -198,8 +172,8 @@ string_instance:
 ;
 
 boolean_instance:
-  TK_IDENT '=' boolean_value ':' KW_BOOL { $$ = template("%s = %s", $1, $3); }
-| TK_IDENT '=' boolean_value ',' boolean_instance { $$ = template("%s = %s, %s", $1, $3, $5); }
+  stmt_assignment ':' KW_BOOL { $$ = template("%s", $1); }
+| stmt_assignment ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' boolean_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ':' KW_BOOL { $$ = $1; }
 | TK_IDENT '[' TK_POSINT ']' ',' boolean_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
@@ -321,7 +295,7 @@ in_loop_stmt:
 
 in_block_stmts:
   in_block_stmts stmt { $$ = template("%s\n\t%s", $1, $2); }
-| stmt { $$ = template("\t%s", $1); }
+| %empty { $$ = ""; }
 ;
 
 block_stmt:
@@ -331,7 +305,7 @@ block_stmt:
 
 in_loop_block_stmts:
   in_loop_block_stmts in_loop_stmt { $$ = template("%s\n\t%s", $1, $2); }
-| in_loop_stmt { $$ = template("\t%s", $1); }
+| %empty { $$ = ""; }
 ;
 
 loop_block_stmt:
