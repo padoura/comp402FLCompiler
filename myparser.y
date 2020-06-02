@@ -78,8 +78,9 @@
 %type <str> function_decl
 %type <str> start_decl
 
-%precedence ')'
-%precedence KW_ELSE
+%right "then" KW_ELSE
+%right "beforeComma" ','
+%right "beforeDecl" KW_CONST KW_VAR
 
 
 
@@ -113,8 +114,8 @@ start_decl:
 // **************** Constant declarations ****************
 
 constant_decl:
-  KW_CONST constant_instance { $$ = template("const %s\n", $2); }
-| constant_decl KW_CONST constant_instance { $$ = template("%sconst %s\n", $1, $3); }
+  KW_CONST constant_instance %prec "beforeDecl" { $$ = template("const %s\n", $2); }
+| KW_CONST constant_instance constant_decl { $$ = template("const %s\n%s", $2, $3); }
 ;
 
 constant_instance:
@@ -124,28 +125,28 @@ constant_instance:
 ;
 
 constant:
-  stmt_assignment { $$ = template("%s", $1); }
-| constant ',' stmt_assignment { $$ = template("%s, %s", $1, $3); }
+  stmt_assignment %prec "beforeComma" { $$ = template("%s", $1); }
+| stmt_assignment ',' constant { $$ = template("%s, %s", $1, $3); }
 ;
 
 // **************** Variable declarations ****************
 
 variable_decl:
-  KW_VAR variable_instance ':' KW_NUMBER ';' { $$ = template("double %s;\n", $2); }
-| KW_VAR variable_instance ':' KW_STRING ';' { $$ = template("char* %s;\n", $2); }
-| KW_VAR variable_instance ':' KW_BOOL ';' { $$ = template("int %s;\n", $2); }  
-| variable_decl KW_VAR variable_instance ':' KW_NUMBER ';' { $$ = template("%s\ndouble %s;\n", $1, $3); }
-| variable_decl KW_VAR variable_instance ':' KW_STRING ';' { $$ = template("%s\nchar* %s;\n", $1, $3); }
-| variable_decl KW_VAR variable_instance ':' KW_BOOL ';' { $$ = template("%s\nint %s;\n", $1, $3); }
+  KW_VAR variable_instance ':' KW_NUMBER ';' %prec "beforeDecl" { $$ = template("double %s;\n", $2); }
+| KW_VAR variable_instance ':' KW_STRING ';' %prec "beforeDecl" { $$ = template("char* %s;\n", $2); }
+| KW_VAR variable_instance ':' KW_BOOL ';' %prec "beforeDecl" { $$ = template("int %s;\n", $2); }  
+| KW_VAR variable_instance ':' KW_NUMBER ';' variable_decl { $$ = template("double %s;\n%s", $2, $6); }
+| KW_VAR variable_instance ':' KW_STRING ';' variable_decl { $$ = template("char* %s;\n%s", $2, $6); }
+| KW_VAR variable_instance ':' KW_BOOL ';' variable_decl { $$ = template("int %s;\n%s", $2, $6); }
 ;
 
 variable_instance:
-  constant { $$ = template("%s", $1); }
-| constant ',' variable_instance { $$ = template("%s, %s", $1, $3); }
+  stmt_assignment %prec "beforeComma" { $$ = template("%s", $1); }
+| stmt_assignment ',' variable_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' variable_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT { $$ = $1; }
+| TK_IDENT %prec "beforeComma" { $$ = $1; }
 | TK_IDENT '[' TK_POSINT ']' ',' variable_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
-| TK_IDENT '[' TK_POSINT ']' { $$ = template("%s[%s]", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' %prec "beforeComma" { $$ = template("%s[%s]", $1, $3); }
 ;
 
 // **************** Function declarations ****************
@@ -230,12 +231,12 @@ stmt_assignment:
 
 stmt_if:
   KW_IF '(' expr ')' block_stmt KW_ELSE block_stmt { $$ = template("if(%s)\n\t\t%s\n\telse %s", $3, $5, $7); }
-| KW_IF '(' expr ')' block_stmt { $$ = template("if(%s)\n\t\t%s", $3, $5); }
+| KW_IF '(' expr ')' block_stmt %prec "then" { $$ = template("if(%s)\n\t\t%s", $3, $5); }
 ;
 
 in_loop_stmt_if:
   KW_IF '(' expr ')' loop_block_stmt KW_ELSE loop_block_stmt { $$ = template("if(%s)\n\t\t%s\n\telse %s", $3, $5, $7); }
-| KW_IF '(' expr ')' loop_block_stmt { $$ = template("if(%s)\n\t\t%s", $3, $5); }
+| KW_IF '(' expr ')' loop_block_stmt %prec "then" { $$ = template("if(%s)\n\t\t%s", $3, $5); }
 ;
 
 stmt_for:

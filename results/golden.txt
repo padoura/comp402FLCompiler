@@ -1,4 +1,4 @@
-myparser.y: warning: 49 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 15 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -20,7 +20,7 @@ void main() {
 Hello World Wrong String Example
 *********************************************************
 
-line 7: syntax error, unexpected '}', expecting ')' or ','
+line 7: syntax error, unexpected '}', expecting ',' or ')'
 *********************************************************
 Useless Example
 *********************************************************
@@ -68,8 +68,7 @@ double limit, num, counter;
 
 int prime(double n) {
 	double i;
-
-	int result, isPrime;
+int result, isPrime;
 
 
 	if((n<0))
@@ -169,21 +168,13 @@ Variable Declaration: Scalars
 
 
 double n = (-100);
-
 double a, b = 2e+0;
-
 char* str1 = "\"test\"";
-
 char* str1 = "\"test\"\n", str10;
-
 char* str2, str3, str4;
-
 char* str25, str36 = "xxx", str47, str99;
-
 char* str35;
-
 int isTrue = 1, isFalse = 0;
-
 int isTest;
 
 
@@ -200,21 +191,13 @@ Constant Declaration: Arrays
 
 
 double n = (-100);
-
 double a[2], b = 2e+0;
-
 char* str1 = "\"test\"";
-
 char* str11 = "\"test\"\n", str10[10];
-
 char* str2[2], str3[3], str4[4];
-
 char* str25[25], str36 = "xxx", str47[47], str99;
-
 char* str35[35];
-
 int isTrue = 1, isBoolArray[2], isFalse = 0;
-
 int isTest[100];
 
 
@@ -372,7 +355,6 @@ Expressions: Logical Operators
 
 
 double a, b;
-
 int aLessThanB;
 
 
