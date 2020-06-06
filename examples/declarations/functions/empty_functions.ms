@@ -1,9 +1,9 @@
 function noReturn() {
-    
+	writeString("empty function");
 }
 
 function noReturnVoid(): void {
-    
+	writeString("empty function");
 }
 
 function withReturn() {
@@ -15,5 +15,5 @@ function returnVoid(): void {
 }
 
 function start(): void {
-    
+	writeString("empty function");
 }

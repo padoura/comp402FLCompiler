@@ -9,5 +9,5 @@ var isTrue = true, isBoolArray[2], isFalse = false : boolean;
 var isTest[100] : boolean;
 
 function start(): void {
-    
+	writeString("empty function");
 }

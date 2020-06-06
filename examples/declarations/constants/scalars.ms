@@ -6,5 +6,5 @@ const isTrue = true, isFalse = false : boolean;
 const isTest = true : boolean;
 
 function start(): void {
-    
+	writeString("empty function");
 }

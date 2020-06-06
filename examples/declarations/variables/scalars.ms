@@ -9,5 +9,5 @@ var isTrue = true, isFalse = false : boolean;
 var isTest : boolean;
 
 function start(): void {
-    
+	writeString("empty function");
 }

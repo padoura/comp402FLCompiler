@@ -208,7 +208,7 @@ in_loop_stmt:
 
 in_block_stmts:
   in_block_stmts stmt { $$ = template("%s\n\t%s", $1, $2); }
-| %empty %prec "beforeBeginStmt" { $$ = ""; }
+| stmt %prec "beforeBeginStmt" { $$ = template("\t%s", $1); }
 ;
 
 block_stmt:
