@@ -267,6 +267,7 @@ expr:
   TK_STR { $$ = $1; }
 | KW_TRUE { $$ = "1"; }
 | KW_FALSE { $$ = "0"; }
+| KW_NULL { $$ = "NULL"; }
 | TK_IDENT { $$ = $1; }
 | TK_IDENT '[' expr ']' { $$ = template("%s[(int) (%s)]", $1, $3); }
 | stmt_fun_call { $$ = $1; }
