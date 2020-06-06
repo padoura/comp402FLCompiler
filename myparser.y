@@ -189,9 +189,10 @@ function_input:
 
 // **************** Statements ****************
 
+
+
 stmt:
   stmt_assignment ';' { $$ = template("%s;", $1); }
-| stmt_if { $$ = $1; }
 | stmt_for { $$ = $1; }
 | stmt_while { $$ = $1; }
 | stmt_fun_call ';' { $$ = template("%s;", $1); }
@@ -208,12 +209,15 @@ in_loop_stmt:
 
 in_block_stmts:
   in_block_stmts stmt { $$ = template("%s\n\t%s", $1, $2); }
+| in_block_stmts stmt_if { $$ = template("%s\n\t%s", $1, $2); }
 | stmt %prec "beforeBeginStmt" { $$ = template("\t%s", $1); }
+| stmt_if %prec "beforeBeginStmt" { $$ = template("\t%s", $1); }
 ;
 
 block_stmt:
   '{' in_block_stmts '}' ';' { $$ = template("{\n%s\n\t}", $2); }
 | stmt { $$ = template("%s", $1); }
+| stmt_if { $$ = $1; }
 ;
 
 in_loop_block_stmts:

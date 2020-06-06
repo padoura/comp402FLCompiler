@@ -1,4 +1,3 @@
-myparser.y: warning: 15 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
