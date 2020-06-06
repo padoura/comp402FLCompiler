@@ -1,4 +1,4 @@
-myparser.y: warning: 15 reduce/reduce conflicts [-Wconflicts-rr]
+myparser.y: warning: 9 reduce/reduce conflicts [-Wconflicts-rr]
 
 *********************************************************
 Hello World Example
@@ -84,7 +84,6 @@ int result, isPrime;
 	i = 3;
 	isPrime = 1;
 	while((isPrime && ((i<n/2)))){
-
 		isPrime = (n%s!=0);
 		i = i+2;
 	}
@@ -100,13 +99,11 @@ void main() {
 	counter = 0;
 	num = 2;
 	while((num<=limit)){
-
-		if(prime(num))
+	if(prime(num))
 		{
-
-	counter = counter+1;
-	writeNumber(num);
-	writeString(" ");
+		counter = counter+1;
+		writeNumber(num);
+		writeString(" ");
 	}
 		num = num+1;
 	}
@@ -311,7 +308,6 @@ void main() {
 
 
 	while(1){
-
 	if((counter==10))
 		break;
 	else 	counter = counter+1;
@@ -338,7 +334,6 @@ void main() {
 
 
 	for(counter = 0;(counter<10);counter = counter+1){
-
 	if((counter==0))
 		continue;
 	else 	writeNumber(counter);
@@ -451,7 +446,6 @@ void main() {
 	else {
 
 	for(i = 1;(i<=n);i = i+1){
-
 		fact = fact*i;
 	}
 	writeString("Factorial of ");

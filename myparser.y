@@ -81,6 +81,7 @@
 %right "then" KW_ELSE
 %right "beforeComma" ','
 %right "beforeDecl" KW_CONST KW_VAR
+%right "beforeBeginStmt" KW_BREAK KW_IF KW_CONTINUE KW_FOR KW_WHILE KW_RET TK_IDENT
 
 
 
@@ -207,7 +208,7 @@ in_loop_stmt:
 
 in_block_stmts:
   in_block_stmts stmt { $$ = template("%s\n\t%s", $1, $2); }
-| %empty { $$ = ""; }
+| %empty %prec "beforeBeginStmt" { $$ = ""; }
 ;
 
 block_stmt:
@@ -217,7 +218,7 @@ block_stmt:
 
 in_loop_block_stmts:
   in_loop_block_stmts in_loop_stmt { $$ = template("%s\n\t%s", $1, $2); }
-| %empty { $$ = ""; }
+| in_loop_stmt { $$ = template("\t%s", $1); }
 ;
 
 loop_block_stmt:
