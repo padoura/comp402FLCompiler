@@ -79,9 +79,8 @@
 %type <str> start_decl
 
 %right "then" KW_ELSE
-%right "beforeComma" ','
-%right "beforeDecl" KW_CONST KW_VAR
-%right "beforeBeginStmt" KW_BREAK KW_IF KW_CONTINUE KW_FOR KW_WHILE KW_RET TK_IDENT
+%right "noComma" ','
+%right "noDecl" KW_CONST KW_VAR
 
 
 
@@ -115,7 +114,7 @@ start_decl:
 // **************** Constant declarations ****************
 
 constant_decl:
-  KW_CONST constant_instance %prec "beforeDecl" { $$ = template("const %s\n", $2); }
+  KW_CONST constant_instance %prec "noDecl" { $$ = template("const %s\n", $2); }
 | KW_CONST constant_instance constant_decl { $$ = template("const %s\n%s", $2, $3); }
 ;
 
@@ -126,28 +125,28 @@ constant_instance:
 ;
 
 constant:
-  stmt_assignment %prec "beforeComma" { $$ = template("%s", $1); }
+  stmt_assignment %prec "noComma" { $$ = template("%s", $1); }
 | stmt_assignment ',' constant { $$ = template("%s, %s", $1, $3); }
 ;
 
 // **************** Variable declarations ****************
 
 variable_decl:
-  KW_VAR variable_instance ':' KW_NUMBER ';' %prec "beforeDecl" { $$ = template("double %s;\n", $2); }
-| KW_VAR variable_instance ':' KW_STRING ';' %prec "beforeDecl" { $$ = template("char* %s;\n", $2); }
-| KW_VAR variable_instance ':' KW_BOOL ';' %prec "beforeDecl" { $$ = template("int %s;\n", $2); }  
+  KW_VAR variable_instance ':' KW_NUMBER ';' %prec "noDecl" { $$ = template("double %s;\n", $2); }
+| KW_VAR variable_instance ':' KW_STRING ';' %prec "noDecl" { $$ = template("char* %s;\n", $2); }
+| KW_VAR variable_instance ':' KW_BOOL ';' %prec "noDecl" { $$ = template("int %s;\n", $2); }  
 | KW_VAR variable_instance ':' KW_NUMBER ';' variable_decl { $$ = template("double %s;\n%s", $2, $6); }
 | KW_VAR variable_instance ':' KW_STRING ';' variable_decl { $$ = template("char* %s;\n%s", $2, $6); }
 | KW_VAR variable_instance ':' KW_BOOL ';' variable_decl { $$ = template("int %s;\n%s", $2, $6); }
 ;
 
 variable_instance:
-  stmt_assignment %prec "beforeComma" { $$ = template("%s", $1); }
+  stmt_assignment %prec "noComma" { $$ = template("%s", $1); }
 | stmt_assignment ',' variable_instance { $$ = template("%s, %s", $1, $3); }
 | TK_IDENT ',' variable_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT %prec "beforeComma" { $$ = $1; }
+| TK_IDENT %prec "noComma" { $$ = $1; }
 | TK_IDENT '[' TK_POSINT ']' ',' variable_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
-| TK_IDENT '[' TK_POSINT ']' %prec "beforeComma" { $$ = template("%s[%s]", $1, $3); }
+| TK_IDENT '[' TK_POSINT ']' %prec "noComma" { $$ = template("%s[%s]", $1, $3); }
 ;
 
 // **************** Function declarations ****************
@@ -210,8 +209,8 @@ in_loop_stmt:
 in_block_stmts:
   in_block_stmts stmt { $$ = template("%s\n\t%s", $1, $2); }
 | in_block_stmts stmt_if { $$ = template("%s\n\t%s", $1, $2); }
-| stmt %prec "beforeBeginStmt" { $$ = template("\t%s", $1); }
-| stmt_if %prec "beforeBeginStmt" { $$ = template("\t%s", $1); }
+| stmt { $$ = template("\t%s", $1); }
+| stmt_if { $$ = template("\t%s", $1); }
 ;
 
 block_stmt:
