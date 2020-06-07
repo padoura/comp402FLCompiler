@@ -6,7 +6,7 @@ Hello World Example
 #include <math.h>
 
 
-const char* message = "Hello world!-+*/:_$#@&~^(),.\n";
+const char *message = "Hello world!-+*/:_$#@&~^(),.\n";
 
 
 void main() {
@@ -28,8 +28,8 @@ Useless Example
 
 const double N = (-100);
 
-double a, b;
-
+double a;
+double b;
 double cube(double i) {
 	
 	return i*i*i;
@@ -37,7 +37,6 @@ double cube(double i) {
 
 double add(double n, double k) {
 	double j;
-
 	j = (N-n)+cube(k);
 	writeNumber(j);
 	
@@ -58,12 +57,13 @@ Prime Numbers Example
 #include <math.h>
 
 
-double limit, num, counter;
-
+double limit;
+double num;
+double counter;
 int prime(double n) {
 	double i;
-int result, isPrime;
-
+int result;
+int isPrime;
 	if((n<0))
 		result = prime((-n));
 	else if((n<2))
@@ -135,10 +135,13 @@ Constant Declaration: Scalars
 
 
 const double n = (-100);
-const double a = 1.20, b = 2e-1;
-const char* str1 = "test";
-const char* str2 = "test2", str3 = "test3";
-const int isTrue = 1, isFalse = 0;
+const double a = 1.20;
+const double b = 2e-1;
+const char *str1 = "test";
+const char *str2 = "test2";
+const char *str3 = "test3";
+const int isTrue = 1;
+const int isFalse = 0;
 const int isTest = 1;
 
 
@@ -146,9 +149,6 @@ void main() {
 	writeString("empty function");
 }
 *********************************************************
-tmp.c:8:36: error: initializer element is not computable at load time
- const char* str2 = "test2", str3 = "test3";
-                                    ^~~~~~~
 empty function
 *********************************************************
 Variable Declaration: Scalars
@@ -158,23 +158,27 @@ Variable Declaration: Scalars
 
 
 double n = (-100);
-double a, b = 2e+0;
-char* str1 = "\"test\"";
-char* str11 = "\"test\"\n", str10;
-char* str2, str3, str4;
-char* str25, str36 = "xxx", str47, str99;
-char* str35;
-int isTrue = 1, isFalse = 0;
+double a;
+double b = 2e+0;
+char *str1 = "\"test\"";
+char *str11 = "\"test\"\n";
+char *str10;
+char *str2;
+char *str3;
+char *str4;
+char *str25;
+char *str36 = "xxx";
+char *str47;
+char *str99;
+char *str35;
+int isTrue = 1;
+int isFalse = 0;
 int isTest;
-
 
 void main() {
 	writeString("empty function");
 }
 *********************************************************
-tmp.c:10:22: error: initializer element is not computable at load time
- char* str25, str36 = "xxx", str47, str99;
-                      ^~~~~
 empty function
 *********************************************************
 Constant Declaration: Arrays
@@ -184,23 +188,28 @@ Constant Declaration: Arrays
 
 
 double n = (-100);
-double a[2], b = 2e+0;
-char* str1 = "\"test\"";
-char* str11 = "\"test\"\n", str10[10];
-char* str2[2], str3[3], str4[4];
-char* str25[25], str36 = "xxx", str47[47], str99;
-char* str35[35];
-int isTrue = 1, isBoolArray[2], isFalse = 0;
+double a[2];
+double b = 2e+0;
+char *str1 = "\"test\"";
+char *str11 = "\"test\"\n";
+char *str10[10];
+char *str2[2];
+char *str3[3];
+char *str4[4];
+char *str25[25];
+char *str36 = "xxx";
+char *str47[47];
+char *str99;
+char *str35[35];
+int isTrue = 1;
+int isBoolArray[2];
+int isFalse = 0;
 int isTest[100];
-
 
 void main() {
 	writeString("empty function");
 }
 *********************************************************
-tmp.c:10:26: error: initializer element is not computable at load time
- char* str25[25], str36 = "xxx", str47[47], str99;
-                          ^~~~~
 empty function
 *********************************************************
 Function Declaration: Empty Functions
@@ -270,8 +279,8 @@ Expressions: Arithmetic
 
 
 double result1() {
-	double alpha, beta;
-
+	double alpha;
+double beta;
 	alpha = 2+3-4*(4-5)/7;
 	beta = 1+2+3-4*(4-5)/7;
 	
@@ -297,7 +306,6 @@ Expressions: While with break
 
 void main() {
 	double counter = 0;
-
 	while(1){
 	if((counter==10))
 		break;
@@ -322,7 +330,6 @@ Expressions: For with continue
 
 void main() {
 	double counter;
-
 	for(counter = 0;(counter<10);counter = counter+1){
 	if((counter==0))
 		continue;
@@ -348,9 +355,12 @@ Expressions: Logical Operators
 #include <math.h>
 
 
-double a, b;
-int aLessThanB, aLessEqualB, aEqualB, aNotEqualB;
-
+double a;
+double b;
+int aLessThanB;
+int aLessEqualB;
+int aEqualB;
+int aNotEqualB;
 
 void main() {
 	a = readNumber();
@@ -396,8 +406,9 @@ Simple Calculator Example
 
 
 void main() {
-	double first, second, operator;
-
+	double first;
+double second;
+double operator;
 	writeString("Enter a digit for operator (1:addition, 2:substraction, 3:multiplication, 4: division):\n");
 	operator = readNumber();
 	writeString("Enter first operand:\n");
@@ -436,8 +447,9 @@ Factorial Example
 
 
 void main() {
-	double n, i, fact = 1;
-
+	double n;
+double i;
+double fact = 1;
 	writeString("Enter an integer:\n");
 	n = readNumber();
 	if((n<0))

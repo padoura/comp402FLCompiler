@@ -1,9 +1,13 @@
 %{
     #include <stdio.h>
+    #include <string.h>
     #include "cgen.h"
 
     extern int yylex(void);
     extern int lineNum;
+
+    int check_strrpl(char *str, char* find);
+    char* strrpl(char *str, char* find, char *replace);
 %}
 
 %union
@@ -119,34 +123,34 @@ constant_decl:
 ;
 
 constant_instance:
-  constant ':' KW_NUMBER ';' { $$ = template("double %s;", $1); }
-| constant ':' KW_STRING ';' { $$ = template("char* %s;", $1); }
-| constant ':' KW_BOOL ';' { $$ = template("int %s;", $1); }
+  constant ':' KW_NUMBER ';' { if (check_strrpl($1, ";\n") == 1) $$ = template("double %s", strrpl($1, ";\n", ";\nconst double ")); else $$ = template("double %s", $1); }
+| constant ':' KW_STRING ';' { if (check_strrpl($1, ";\n") == 1) $$ = template("char *%s", strrpl($1, ";\n", ";\nconst char *")); else $$ = template("char *%s", $1); }
+| constant ':' KW_BOOL ';' { if (check_strrpl($1, ";\n") == 1) $$ = template("int %s", strrpl($1, ";\n", ";\nconst int ")); else $$ = template("int %s", $1); }
 ;
 
 constant:
-  stmt_assignment %prec "noComma" { $$ = template("%s", $1); }
-| stmt_assignment ',' constant { $$ = template("%s, %s", $1, $3); }
+  stmt_assignment %prec "noComma" { $$ = template("%s;", $1); }
+| stmt_assignment ',' constant { $$ = template("%s;\n%s", $1, $3); }
 ;
 
 // **************** Variable declarations ****************
 
 variable_decl:
-  KW_VAR variable_instance ':' KW_NUMBER ';' %prec "noDecl" { $$ = template("double %s;\n", $2); }
-| KW_VAR variable_instance ':' KW_STRING ';' %prec "noDecl" { $$ = template("char* %s;\n", $2); }
-| KW_VAR variable_instance ':' KW_BOOL ';' %prec "noDecl" { $$ = template("int %s;\n", $2); }  
-| KW_VAR variable_instance ':' KW_NUMBER ';' variable_decl { $$ = template("double %s;\n%s", $2, $6); }
-| KW_VAR variable_instance ':' KW_STRING ';' variable_decl { $$ = template("char* %s;\n%s", $2, $6); }
-| KW_VAR variable_instance ':' KW_BOOL ';' variable_decl { $$ = template("int %s;\n%s", $2, $6); }
+  KW_VAR variable_instance ':' KW_NUMBER ';' %prec "noDecl" { if (check_strrpl($2, ";\n") == 1) $$ = template("double %s", strrpl($2, ";\n", ";\ndouble ")); else $$ = template("double %s", $2); }
+| KW_VAR variable_instance ':' KW_STRING ';' %prec "noDecl" { if (check_strrpl($2, ";\n") == 1) $$ = template("char *%s", strrpl($2, ";\n", ";\nchar *")); else $$ = template("char *%s", $2); }
+| KW_VAR variable_instance ':' KW_BOOL ';' %prec "noDecl" { if (check_strrpl($2, ";\n") == 1) $$ = template("int %s", strrpl($2, ";\n", ";\nint ")); else $$ = template("int %s", $2); }
+| KW_VAR variable_instance ':' KW_NUMBER ';' variable_decl { if (check_strrpl($2, ";\n") == 1) $$ = template("double %s\n%s", strrpl($2, ";\n", ";\ndouble "), $6); else $$ = template("double %s\n%s", $2, $6); }
+| KW_VAR variable_instance ':' KW_STRING ';' variable_decl { if (check_strrpl($2, ";\n") == 1) $$ = template("char *%s\n%s", strrpl($2, ";\n", ";\nchar *"), $6); else $$ = template("char *%s\n%s", $2, $6); }
+| KW_VAR variable_instance ':' KW_BOOL ';' variable_decl { if (check_strrpl($2, ";\n") == 1) $$ = template("int %s\n%s", strrpl($2, ";\n", ";\nint "), $6); else $$ = template("int %s\n%s", $2, $6); }
 ;
 
 variable_instance:
-  stmt_assignment %prec "noComma" { $$ = template("%s", $1); }
-| stmt_assignment ',' variable_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT ',' variable_instance { $$ = template("%s, %s", $1, $3); }
-| TK_IDENT %prec "noComma" { $$ = $1; }
-| TK_IDENT '[' TK_POSINT ']' ',' variable_instance { $$ = template("%s[%s], %s", $1, $3, $6); }
-| TK_IDENT '[' TK_POSINT ']' %prec "noComma" { $$ = template("%s[%s]", $1, $3); }
+  stmt_assignment %prec "noComma" { $$ = template("%s;", $1); }
+| stmt_assignment ',' variable_instance { $$ = template("%s;\n%s", $1, $3); }
+| TK_IDENT ',' variable_instance { $$ = template("%s;\n%s", $1, $3); }
+| TK_IDENT %prec "noComma" { $$ = template("%s;", $1); }
+| TK_IDENT '[' TK_POSINT ']' ',' variable_instance { $$ = template("%s[%s];\n%s", $1, $3, $6); }
+| TK_IDENT '[' TK_POSINT ']' %prec "noComma" { $$ = template("%s[%s];", $1, $3); }
 ;
 
 // **************** Function declarations ****************
@@ -300,6 +304,41 @@ tk_posint_or_zero:
 
 
 %%
+
+int check_strrpl(char *str, char* find) {
+    char *pt = strstr(str, find);
+    if(pt == NULL){
+        return 0;
+    }
+    return 1;
+}
+
+// function used to take care of declaring multiple strings in a line
+char* strrpl(char *str, char* find, char *replace) {
+    int i;
+    char *pt = strstr(str, find);
+    char *firstStr;
+    if(pt == NULL){
+        return NULL;
+    }
+
+    // printf("\nTEST: %s\n", str);
+    firstStr = (char* )malloc(100 * sizeof(char));
+
+    strncpy(firstStr, str, strlen(str) - strlen(pt));
+    strcat(firstStr, replace);
+
+    if (check_strrpl(pt + strlen(find), find) == 0){
+      strcat(firstStr, pt + strlen(find));
+      for(i = 0; i < strlen(firstStr); i++)
+        str[i] = firstStr[i];
+      str[i] = '\0';
+      return str;
+    }else{
+      return strcat(firstStr, strrpl(pt + strlen(find), find, replace));
+    }
+}
+
 int main () {
   yyparse();
 }
