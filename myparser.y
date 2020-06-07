@@ -283,7 +283,7 @@ expr:
 | expr '+' expr { $$ = template("%s+%s", $1, $3); }
 | expr '-' expr { $$ = template("%s-%s", $1, $3); }
 | expr '/' expr { $$ = template("%s/%s", $1, $3); }
-| expr '%' expr { $$ = template("%s\%%s", $1, $3); }
+| expr '%' expr { $$ = template("fmod(%s, %s)", $1, $3); }
 | expr '*' expr { $$ = template("%s*%s", $1, $3); }
 | expr OP_EXPO expr { $$ = template("pow(%s, %s)", $1, $3); }
 | '-' expr { $$ = template("(-%s)", $2); }

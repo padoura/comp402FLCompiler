@@ -1,8 +1,8 @@
 // File: factorial.ms
 
 function start(): void {
-    var n, i, fact: number;
-    writeString("Enter an integer: ");
+    var n, i, fact = 1: number;
+    writeString("Enter an integer:\n");
     n = readNumber();
 
     if (n < 0)
